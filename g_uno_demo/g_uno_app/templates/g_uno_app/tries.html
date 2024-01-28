@@ -1,0 +1,52 @@
+{% extends 'g_uno_app/base.html' %}
+{% load static %}
+{% load bootstrap_icons %}
+
+{% block content %}  
+
+<body> 
+    <p class = "h1-medium">Hello There{% bs_icon 'eye' %}</p>
+    <p class = "h1-bold">Hello There</p>
+    <li class = "nav-item">Hello</li>
+    <li class = "active">Heyyy</li>
+    {% with url_name=request.resolver_match.url_name %}
+        <li class="nav-item {% if url_name == 'tries' %} active {% endif %}" style = "list-style-type: none ">
+            <a class="nav-link" href="#" style=" display: inline; text-align: left; padding-right:32px; padding-top:16px; padding-bottom:16px;"><span class = "{% if url_name == 'tries' %} violet400 {% endif %} {% if url_name != 'tries' %} gray400 {% endif %}" style = "border-width:12px">{% bs_icon 'eye' %}</span> Patients</a>
+        </li>
+        <li class="nav-item {% if url_name == 'view_clinics' %} active {% endif %}" style = "list-style-type: none">
+            <a class="nav-link" href="#" style=" display: inline; text-align: left; padding-right:32px; padding-top:16px; padding-bottom:16px;">Clinics</a>
+        </li>
+        
+        
+    {% endwith %}
+    <button class = "btn btn-info" style = "background:none;border:none;color:#334155;">
+        <p class = "gray400" style = "font-weight: bold;">{% bs_icon 'eye' %}</p>
+        <p class = "gray700">Hi</p>
+    </button>
+    <button class = "btn btn-info active" style = "border-color:#ede9fe; color:#6d28d9; background-color: #ede9fe;">Heylo</button>
+    <a>{% bs_icon 'eye' extra_classes="bold-icon"%}</a>
+    <a>{% bs_icon 'eye'%}</a>
+    <i class="bi-alarm" style="-webkit-text-stroke: -0.5px;"></i>
+    <i class="bi-alarm"></i>
+    <li class="nav-item dropdown">
+        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" style = "color:#6B7280">Hi Dr. Ledesma</a>
+        <div class="dropdown-menu dropdown-menu-end" style = "border-color:#F3F4F6; border-radius:4px">
+            <a href="#" class="dropdown-item" style = "color:#6B7280">My Account</a>
+            <a href="#" class="dropdown-item" style = "color:#6B7280">Log out</a>
+        </div>
+    </li>
+    <div class="dropdown" style = "padding-bottom: 400px;">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" style = "border-radius: 100px;">
+          Dropdown button
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+          <li><a class="dropdown-item" href="#">Action</a></li>
+          <li><a class="dropdown-item" href="#">Another action</a></li>
+          <li><a class="dropdown-item" href="#">Something else here</a></li>
+        </ul>
+    </div>
+
+
+</body>
+
+{% endblock %}

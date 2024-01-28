@@ -1,0 +1,103 @@
+{% load static %}
+{% load bootstrap_icons %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
+    <link rel="stylesheet" href="{% static '/bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static '/bootstrap/css/custom.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+
+
+    <script src="{% static '/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <link href="{% static 'js/jquery-ui-1.12.1/jquery-ui.min.css' %}" rel="stylesheet">
+    <link href="{% static 'js/jquery-ui-1.12.1/jquery-ui.structure.min.css' %}" rel="stylesheet">
+    <link href="{% static 'js/jquery-ui-1.12.1/jquery-ui.theme.min.css' %}" rel="stylesheet">
+
+    
+    <script src="{% static 'js/jquery-3.4.0.min.js' %}"></script>
+    <script src="{% static 'js/jquery-ui-1.12.1/jquery-ui.js' %}"></script>
+    <script src="{% static 'js/custom.js' %}"></script>
+
+    <!-- jQuery CDN - Slim version (=without AJAX) -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <!-- Popper.JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+    <!-- jQuery Custom Scroller CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
+
+
+    <title>Golden Uno</title>
+
+    
+</head>
+<body style = "background-color: #f8fafc;">
+
+    <script>
+        function openNav() {
+            document.getElementById("mySidebar").style.width = "340px";
+            document.getElementById("main").style.marginLeft = "340px";
+            document.getElementById("openbutton").style.display = "none";
+        }
+    
+    /* Set the width of the sidebar to 0 and the left margin of the page content to 0 */
+        function closeNav() {
+            document.getElementById("mySidebar").style.width = "0";
+            document.getElementById("main").style.marginLeft = "0";
+            document.getElementById("openbutton").style.display = "block";
+        }
+    </script>
+    
+    
+    <div id="mySidebar" class="sidebar">
+        <div style = "display: flex; justify-content: space-between; line-height: 28px; padding-left:32px; padding-top:0px; padding-bottom:0px;">
+            <h3 class = "h3-medium">GOLDEN UNO </h3>
+            <a class="closebtn gray400" onclick="closeNav()" style = "font-size:24px; padding-right:32px; padding-left:0px; padding-top:0px; padding-bottom:4px; cursor: pointer;" ><i class="bi bi-chevron-double-left" style = "-webkit-text-stroke: 1px;"></i></a>
+        </div>
+        <div style = "padding-top:60px;">
+        {% with url_name=request.resolver_match.url_name %}
+            <li class="nav-item {% if url_name == 'dr_home' %} active {% endif %}" style = "list-style-type: none; padding-top:8px; padding-bottom:8px;">
+                <div style = "display:flex; justify-content:flex-start">
+                    <a class="nav-link violet70 h5-semibold" href="#" style="text-align: left;"><span class = "{% if url_name == 'dr_home' %} violet400 {% endif %} {% if url_name != 'dr_home' %} gray400 {% endif %}" style = "border-width:12px; padding-right:12px; padding-top:0px;"><i class="bi bi-truck" style = "-webkit-text-stroke: 0px;font-size:20px; vertical-align: 4px"></i></span>
+                        Delivery Receipts</a>
+                </div>
+            </li>
+            <li class="nav-item {% if url_name == 'products_home' %} active {% endif %}" style = "list-style-type: none; padding-top:8px; padding-bottom:8px;">
+                <div style = "display:flex; justify-content:flex-start">
+                    <a class="nav-link violet70 h5-semibold" href="#" style="text-align: left;"><span class = "{% if url_name == 'products_home' %} violet400 {% endif %} {% if url_name != 'products_home' %} gray400 {% endif %}" style = "border-width:12px; padding-right:12px; padding-top:0px;"><i class="bi bi-archive" style = "-webkit-text-stroke: 0px;font-size:20px; vertical-align: 4px"></i></span>
+                        Products</a>
+                </div>        
+            </li>
+            <li class="nav-item {% if url_name == 'soa_home' %} active {% endif %}" style = "list-style-type: none; padding-top:8px; padding-bottom:8px;">
+                <div style = "display:flex; justify-content:flex-start">
+                    <a class="nav-link violet70 h5-semibold" href="#" style="text-align: left;"><span class = "{% if url_name == 'soa_home' %} violet400 {% endif %} {% if url_name != 'soa_home' %} gray400 {% endif %}" style = "border-width:12px; padding-right:12px; padding-top:0px;"><i class="bi bi-file-earmark-text" style = "-webkit-text-stroke: 0px;font-size:20px; vertical-align: 4px"></i></span>
+                        Statements of Account</a>
+                </div>        
+            </li>
+            <li class="nav-item {% if url_name == 'account' %} active {% endif %}" style = "list-style-type: none; position: absolute; bottom:0px; padding-bottom:16px;">
+                <div style = "display:flex; justify-content:flex-start">
+                    <a class="nav-link violet70 h5-semibold" href="#" style="text-align: left;"><span class = "{% if url_name == 'account' %} violet400 {% endif %} {% if url_name != 'account' %} gray400 {% endif %}" style = "border-width:12px; padding-right:12px; padding-top:0px;"><i class="bi bi-person" style = "-webkit-text-stroke: 0px;font-size:20px; vertical-align: 5px"></i></span>
+                        Hi Name!</a>
+                </div>        
+            </li>
+        {% endwith %}
+        </div>
+    </div>
+      
+    <div id="main" style = "padding-top:44px; padding-left:64px; padding-right:64px">
+        <a id = "openbutton" class="openbtn gray400" onclick="openNav()" style = "background-color: none; font-size:24px; width:24px; padding-bottom:18px;"><i class="bi bi-chevron-double-right" style = "-webkit-text-stroke: 1px;"></i></a>
+        {% block content %}
+        {% endblock %}
+    </div>
+    
+</body>
+</html>
