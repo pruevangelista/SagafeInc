@@ -23,8 +23,6 @@ from .models import *
 #     else:
 #         return render(request, 'gu_app/test.html')
 
-def tries(request):
-    return render(request, 'g_uno_app/tries.html')
 
 def dr_home(request):
     return render(request, 'g_uno_app/dr_home.html')
