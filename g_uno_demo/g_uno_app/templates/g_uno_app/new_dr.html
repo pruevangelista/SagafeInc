@@ -1,1 +1,58 @@
 <h1> This is the new DR! :D </h1>
+
+<p>Product Name: {{ a.getProductName }}</p>
+<p>Product Size: {{ a.getSize }}</p>
+<p>Product Quantity: {{ b.getQuantity }}</p>
+<br>
+<p>DR Number: {{ c.formatDrNumber }}</p>
+<p>DR Date: {{ c.getDate }}</p>
+<p>DR Due Date{{ c.getDueDate }}</p>
+<p>DR Amount Without Vat: {{ c.getDrAmtWoVat }}</p>
+<p>DR Amount + Vat: {{ c.getDrAmtVat }}</p>
+
+
+
+
+{% comment %} <divtemp>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Dynamic Form</title>
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    </head>
+    <body>
+
+    <form id="dynamic-form">
+        <div id="form-rows">
+            <div class="form-row">
+                <input type="text" name="quantity[]" placeholder="Quantity">
+                <input type="text" name="product[]" placeholder="Product">
+                <input type="text" name="size[]" placeholder="Size">
+                <button type="button" class="remove-row">Remove</button>
+            </div>
+        </div>
+        <button type="button" id="add-row">Add Row</button>
+        <button type="submit">Submit</button>
+    </form>
+
+    <script>
+    $(document).ready(function () {
+        // Add row
+        $("#add-row").click(function () {
+            var newRow = $(".form-row:first").clone();
+            newRow.find("input").val(""); // Clear input values in the new row
+            newRow.find(".remove-row").show(); // Show remove button for the new row
+            $("#form-rows").append(newRow); // Append the new row to the form rows
+        });
+
+        // Remove row
+        $("#dynamic-form").on("click", ".remove-row", function () {
+            $(this).closest(".form-row").remove();
+        });
+    });
+    </script>
+
+    </body>
+    </html>
+</divtemp> {% endcomment %}

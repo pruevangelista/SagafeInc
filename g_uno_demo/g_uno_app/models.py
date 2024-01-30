@@ -1,6 +1,6 @@
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
-from datetime import date
+from datetime import date, timedelta
 
 # Create your models here.
 
@@ -62,33 +62,47 @@ class QuantityOrdered(models.Model):
 
 #Delivery Receipt
 class DeliveryReceipt(models.Model):
-    dr_number = models.AutoField(primary_key=True, default=1)
+    dr_number = models.AutoField(primary_key=True)
+
+    
+
     dr_date = models.DateField(null=False, default=date.today)
+    dr_due_date = models.DateField(null=False, default=date.today)
 
     #ENUM: DR Terms
     terms = [
         ("90", "90"),
         ("120", "120")
     ]
+
     dr_terms = models.CharField(max_length=3, choices=terms, null=False)
     product_id = models.ManyToManyField(Product, through=QuantityOrdered, blank=True, null=False)
 
+    dr_amt_wo_vat = models.FloatField(null=True, blank=True)
+    dr_amt_vat = models.FloatField(null=True, blank=True)
+
     def getDrNumber(self):
         return self.product_id
+    
+    def getDrAmtVat(self):
+        return self.dr_amt_vat
+
+    def getDrAmtWoVat(self):
+        return self.dr_amt_wo_vat
+    
+    def getDate(self):
+        return self.dr_date
+
+    def getDueDate(self):
+        return self.dr_due_date
+    
+    def formatDrNumber(self):
+        return "{:02d}-{:03d}".format(self.dr_number // 1000, self.dr_number % 1000)
 
     def __str__(self):
         return (
             f"DR Number: {self.dr_number}, "
         )
-    #         f"Date: {self.dr_date}, "
-    #         f"Terms: {self.dr_terms}, "
-    #         f"VAT: {self.dr_vat}, "
-    #         f"WVAT: {self.dr_amtwvat}, "
-    #         f"WOVAT: {self.dr_amtwovat}, "
-    #         f"Subtotal: {self.dr_subtotal}, "
-    #         f"Due Date: {self.dr_duedate}, "
-    #         f"Payment Status: {self.dr_paymentstatus}"
-    #     )
      
 
 
