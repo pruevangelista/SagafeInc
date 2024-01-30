@@ -78,8 +78,8 @@ class DeliveryReceipt(models.Model):
     dr_terms = models.CharField(max_length=3, choices=terms, null=False)
     product_id = models.ManyToManyField(Product, through=QuantityOrdered, blank=True, null=False)
 
-    dr_amt_wo_vat = models.FloatField(null=True, blank=True)
-    dr_amt_vat = models.FloatField(null=True, blank=True)
+    dr_amt_wo_vat = models.FloatField(null=False, blank=True, default = 0)
+    dr_amt_vat = models.FloatField(null=False, blank=True, default = 0)
 
     def getDrNumber(self):
         return self.product_id
