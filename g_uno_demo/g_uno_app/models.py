@@ -54,6 +54,12 @@ class QuantityOrdered(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.IntegerField()
 
+    def getDr(self):
+        return self.dr
+    
+    def getQuantity(self):
+        return self.quantity
+
 #Delivery Receipt
 class DeliveryReceipt(models.Model):
     dr_number = models.AutoField(primary_key=True, default=1)
@@ -67,10 +73,13 @@ class DeliveryReceipt(models.Model):
     dr_terms = models.CharField(max_length=3, choices=terms, null=False)
     product_id = models.ManyToManyField(Product, through=QuantityOrdered, blank=True, null=False)
 
-    # def __str__(self):
-    #     return (
-    #         f"DR Number: {self.dr_number}, "
-    #     )
+    def getDrNumber(self):
+        return self.product_id
+
+    def __str__(self):
+        return (
+            f"DR Number: {self.dr_number}, "
+        )
     #         f"Date: {self.dr_date}, "
     #         f"Terms: {self.dr_terms}, "
     #         f"VAT: {self.dr_vat}, "

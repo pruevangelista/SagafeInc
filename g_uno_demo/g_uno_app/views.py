@@ -31,4 +31,17 @@ def add_dr(request):
     return render(request, 'g_uno_app/add_dr.html')
 
 def new_dr(request):
+    test = DeliveryReceipt.objects.get(dr_number=1)
+    prodtest = Product.objects.get(product_ID=1)
+    qotest = QuantityOrdered.objects.create(dr = test, product = prodtest, quantity=5)
+    # qo = QuantityOrdered.objects.get(dr = test, product = prodtest, quantity=5)
+    # DeliveryReceipt.product_id.add(QuantityOrdered).object.get(dr=DeliveryReceipt.objects.get(dr_number=1))]
+    test.product_id.add(prodtest)
+    # test.product_id.remove(prodtest)
+    print(test.product_id.get(product_ID=1).getUnitPrice())
+    print(test.product_id.all())
+    print(qotest.getQuantity())
+   
+
+    # print(DeliveryReceipt.objects.get(dr_number=1).getDrNumber())
     return render(request, 'g_uno_app/new_dr.html') #implement pk 
