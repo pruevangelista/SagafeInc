@@ -82,7 +82,7 @@ class DeliveryReceipt(models.Model):
     dr_amt_vat = models.FloatField(null=False, blank=True, default = 0)
 
     def getDrNumber(self):
-        return self.product_id
+        return self.dr_number
     
     def getDrAmtVat(self):
         return self.dr_amt_vat
@@ -98,6 +98,10 @@ class DeliveryReceipt(models.Model):
     
     def formatDrNumber(self):
         return "{:02d}-{:03d}".format(self.dr_number // 1000, self.dr_number % 1000)
+    
+    #Prue: Added this 
+    def formatDate(self):
+        return self.dr_date.strftime("%m/%d/%Y")
 
     def __str__(self):
         return (
