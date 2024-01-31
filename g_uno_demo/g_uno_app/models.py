@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
+from datetime import date, timedelta
 
 # Create your models here.
 
@@ -46,72 +47,69 @@ class Product(models.Model):
             f"Unit Price: {self.unit_price}"
         )
 
+
+# Associative
+class QuantityOrdered(models.Model):
+    dr = models.ForeignKey("DeliveryReceipt", on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    #quantity = models.IntegerField(validators=[MaxValueValidator(999)], null=False, primary_key=True)
+    quantity = models.IntegerField()
+
+    def getDr(self):
+        return self.dr
+    
+    def getQuantity(self):
+        return self.quantity
+
 #Delivery Receipt
 class DeliveryReceipt(models.Model):
-    dr_number = models.IntegerField(validators=[MaxValueValidator(99999)], null=False, primary_key=True) #Auto-increment, FORMAT: 00-000
-    dr_date = models.DateField(null=False, auto_now_add=True)
+    dr_number = models.AutoField(primary_key=True)
+    dr_date = models.DateField(null=False, default=date.today)
+    dr_due_date = models.DateField(null=False, default=date.today)
+
     #ENUM: DR Terms
     terms = [
         ("90", "90"),
         ("120", "120")
     ]
-    dr_terms = models.CharField(max_length=3, choices=terms, null=False)
-    dr_vat = models.DecimalField(max_digits=8, decimal_places=2, null=False)
-    dr_amtwvat = models.DecimalField(max_digits=8, decimal_places=2, null=False)
-    dr_amtwovat = models.DecimalField(max_digits=8, decimal_places=2, null=False)
-    dr_subtotal = models.DecimalField(max_digits=8, decimal_places=2, null=False)
-    dr_duedate = models.DateField(null=False)
-    #ENUM: Payment Status
-    payment_status = [
-        ("Not Paid", "Not Paid"),
-        ("Partially Paid", "Partially Paid"),
-        ("Fully Paid", "Fully Paid")
-    ]
-    dr_paymentstatus = models.CharField(max_length=15, choices=payment_status, null=False)
-    #client_id = models.ForeignKey(Client, on_delete=models.CASCADE, db_constraint=False, db_column='client_id_number')
-    #SOA_number = models.ForeignKey(SOA, on_delete=models.CASCADE, db_constraint=False, db_colum='SOA')
-    objects = models.Manager()
 
-    def getDRNumber(self):
+    dr_terms = models.CharField(max_length=3, choices=terms, null=False)
+    product_id = models.ManyToManyField(Product, through=QuantityOrdered, blank=True, null=False)
+
+    dr_amt_wo_vat = models.FloatField(null=False, blank=True, default = 0)
+    dr_amt_vat = models.FloatField(null=False, blank=True, default = 0)
+
+    def getDrNumber(self):
         return self.dr_number
     
-    def getDRDate(self):
+    def getDrAmtVat(self):
+        return self.dr_amt_vat
+
+    def getDrAmtWoVat(self):
+        return self.dr_amt_wo_vat
+    
+    def getDate(self):
         return self.dr_date
-    
-    def getDRTerms(self):
-        return self.dr_terms 
-    
-    def getVAT(self):
-        return self.dr_vat
-    
-    def getWVAT(self):
-        return self.dr_amtwvat
-    
-    def getWOVAT(self):
-        return self.dr_amtwovat
-    
-    def getSubtotal(self):
-        return self.dr_subtotal
-    
+
     def getDueDate(self):
-        return self.dr_duedate
+        return self.dr_due_date
     
-    def getPaymentStatus(self):
-        return self.dr_paymentstatus
+    def formatDrNumber(self):
+        return "{:02d}-{:03d}".format(self.dr_number // 1000, self.dr_number % 1000)
     
+    #Prue: Added this 
+    def formatDate(self):
+        return self.dr_date.strftime("%m/%d/%Y")
+
     def __str__(self):
         return (
-            f"DR Number: {self.dr_number}, "
-            f"Date: {self.dr_date}, "
-            f"Terms: {self.dr_terms}, "
-            f"VAT: {self.dr_vat}, "
-            f"WVAT: {self.dr_amtwvat}, "
-            f"WOVAT: {self.dr_amtwovat}, "
-            f"Subtotal: {self.dr_subtotal}, "
-            f"Due Date: {self.dr_duedate}, "
-            f"Payment Status: {self.dr_paymentstatus}"
+            f"DR Number: {self.dr_number}"
         )
      
+
+
+    
+
 
 #Client
 class Client(models.Model):
