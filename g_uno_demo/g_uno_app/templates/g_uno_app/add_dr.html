@@ -74,15 +74,41 @@
                 <h4>Product Details</h4>
             </div>
             <label for="quantity">Quantity:</label>
-            <input type="number" placeholder="Qty." name="inp_quantity">
+            <input type="number" placeholder="Qty." name="inp_quantity[]">
             <!-- REMOVE INPUT: Unit should be automatic based on the product selected -->
             <!-- <label for="unit">Unit: {{ e.getUnit }} </label> -->
             <label for="unit">Unit: </label disabled>
             <input type="text" placeholder="Sheets" disabled>
             <label for="product">Product:</label>
-            <input type="text" placeholder="Select Product" name = "inp_product">
+            <input type="text" placeholder="Select Product" name = "inp_product[]">
             <label for="size">Size:</label>
-            <input type="text" placeholder="Select Size" name = "inp_size">
+            <input type="text" placeholder="Select Size" name = "inp_size[]">
+            <!-- REMOVE INPUT: Should be automatically calculated based on the database considering the product and its size -->
+            <!-- <label for="unit_price">Unit Price: {{ e.getUnitPrice }}</label> -->
+            <label for="unit_price">Unit Price:</label>
+            <input type="text" placeholder="P0.00" disabled>
+            <!-- REMOVE INPUT: Should be automatically calculated based on the product of unit price and quantity -->
+            <label for="subtotal">Subtotal:</label>
+            <input type="text" placeholder="P0.00" disabled>
+            <br>
+            <!-- ADD PRODUCT BUTTON: When clicked, append a new product details form / row of another product client will buy. -->
+            <button class="add_product_btn">Add Product</button>
+        </div>
+
+        <div class="product_details">
+            <div class="header2">
+                <h4>Product Details</h4>
+            </div>
+            <label for="quantity">Quantity:</label>
+            <input type="number" placeholder="Qty." name="inp_quantity[]">
+            <!-- REMOVE INPUT: Unit should be automatic based on the product selected -->
+            <!-- <label for="unit">Unit: {{ e.getUnit }} </label> -->
+            <label for="unit">Unit: </label disabled>
+            <input type="text" placeholder="Sheets" disabled>
+            <label for="product">Product:</label>
+            <input type="text" placeholder="Select Product" name = "inp_product[]">
+            <label for="size">Size:</label>
+            <input type="text" placeholder="Select Size" name = "inp_size[]">
             <!-- REMOVE INPUT: Should be automatically calculated based on the database considering the product and its size -->
             <!-- <label for="unit_price">Unit Price: {{ e.getUnitPrice }}</label> -->
             <label for="unit_price">Unit Price:</label>

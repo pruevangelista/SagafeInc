@@ -53,6 +53,7 @@ class QuantityOrdered(models.Model):
     dr = models.ForeignKey("DeliveryReceipt", on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.IntegerField()
+    subtotal = models.FloatField(default=0)
 
     def getDr(self):
         return self.dr
