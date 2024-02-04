@@ -64,9 +64,6 @@ class QuantityOrdered(models.Model):
 #Delivery Receipt
 class DeliveryReceipt(models.Model):
     dr_number = models.AutoField(primary_key=True)
-
-    
-
     dr_date = models.DateField(null=False, default=date.today)
     dr_due_date = models.DateField(null=False, default=date.today)
 
