@@ -17,7 +17,7 @@
 </div>
 
 
-<form method = "POST" action = "{% url 'new_dr' %}">{% csrf_token %}
+<form method="POST" action = "{% url 'new_dr' %}"> {% csrf_token %}
 <div class = "shadow" style = "background-color: white; border-radius: 16px; margin-left:72px; margin-right:72px; margin-bottom:171px">
     <div style = "padding-left: 64px; padding-right: 64px; padding-top: 64px; padding-bottom:48px;">
         <div style = "display:flex; justify-content: space-between; padding-bottom:24px;">
@@ -45,9 +45,10 @@
                     <div class = "dropdown">
                         <a class = "btn btn-outline-dark" style = "width:160px; display: flex; justify-content: space-between;" href = "#" role = "button" data-bs-toggle="dropdown" aria-expanded="false">Select Terms<i class="bi bi-chevron-down" style = "-webkit-text-stroke: 1px; right:10px"></i></a>
                         <ul class="dropdown-menu shadow" style = "width:160px;">
-                            <li><a class="dropdown-item body-regular gray600" href="#">90 days</a></li>
-                            <li><a class="dropdown-item body-regular gray600" href="#">120 days</a></li>
+                            <li><a class="dropdown-item body-regular gray600" href="#" onclick="updateTerm(90)">90 days</a></li>
+                            <li><a class="dropdown-item body-regular gray600" href="#" onclick="updateTerm(120)">120 days</a></li>
                         </ul>
+                        <input type="hidden" name="inputTerms" id="inputTerms"></input>
                     </div>
                 </div>
             </div>
@@ -79,7 +80,7 @@
             </div>
             <div class="form-group required" id="productchoice" style = "width:352px;">
                 <label for="productchoice" class = "gray500 justify-content-left control-label body-regular" required="required" style = "padding-bottom: 16px;"> Product </label>
-                <input type="text" class="form-control body-regular gray800" list="datalistOptions" id="productchoice" name="productchoice" placeholder="Type to search product..." style = "color:#6C757D; display:inline;">
+                <input type="text" class="form-control body-regular gray800" list="datalistOptions" id="productchoice" name="productchoice" placeholder="Type to search product..." style = "color:#6C757D; display:inline;" required>
                 <datalist id="datalistOptions">
                     <option value="Vinyl Sticker Indoor">
                     <option value="Vinyl Sticker Outdoor">
@@ -91,11 +92,12 @@
                 <label for="sizechoice" class = "gray500 justify-content-left control-label body-regular" required="required" style = "padding-bottom: 16px;"> Size </label>
                 <div class = "dropdown">
                     <a class = "btn btn-outline-dark" style = "width:200px; display: flex; justify-content: space-between;" href = "#" role = "button" data-bs-toggle="dropdown" aria-expanded="false">Select Size<i class="bi bi-chevron-down" style = "-webkit-text-stroke: 1px; right:10px"></i></a>
-                    <ul class="dropdown-menu shadow" style = "width:200px;">
-                        <li><a class="dropdown-item body-regular gray600" href="#">50" by 90"</a></li>
-                        <li><a class="dropdown-item body-regular gray600" href="#">50" by 60"</a></li>
-                        <li><a class="dropdown-item body-regular gray600" href="#">50" by 30"</a></li>
+                    <ul class="dropdown-menu shadow" style = "width:200px;" name="size">
+                        <li><a class="dropdown-item body-regular gray600" href="#" onclick="updateSize('50&quot; by 90&quot;', 1)">50" by 90"</a></li>
+                        <li><a class="dropdown-item body-regular gray600" href="#" onclick="updateSize('50&quot; by 60&quot;', 1)">50" by 60"</a></li>
+                        <li><a class="dropdown-item body-regular gray600" href="#" onclick="updateSize('50&quot; by 30&quot;', 1)">50" by 30"</a></li>
                     </ul>
+                    <input type="hidden" name="size" id="size1"></input>
                 </div>
             
             </div>
@@ -122,9 +124,19 @@
         
         <script>
             // JavaScript function to add a new field
-            //use of fieldcounts removed
+            let fieldCount = 1;
+            function updateTerm(value) {
+                document.getElementById('inputTerms').value = value;
+            }
+
+            function updateSize(value, row) {
+                document.getElementById('size' + row).value = value;
+            }
+
+
             function addProduct() {
-                
+                fieldCount++;
+                console.log(fieldCount);
                 // Get the container element where new fields will be added
                 const container = document.getElementById('newProduct');
           
@@ -153,10 +165,11 @@
                         <div class = "dropdown size">
                             <a class = "btn btn-outline-dark" style = "width:200px; display: flex; justify-content: space-between;" href = "#" role = "button" data-bs-toggle="dropdown" aria-expanded="false">Select Size<i class="bi bi-chevron-down" style = "-webkit-text-stroke: 1px; right:10px"></i></a>
                             <ul class="dropdown-menu shadow" style = "width:200px;">
-                                <li><a class="dropdown-item body-regular gray600" href="#">50" by 90"</a></li>
-                                <li><a class="dropdown-item body-regular gray600" href="#">50" by 60"</a></li>
-                                <li><a class="dropdown-item body-regular gray600" href="#">50" by 30"</a></li>
+                                <li><a class="dropdown-item body-regular gray600" href="#" onclick="updateSize('50&quot; by 90&quot;', ${fieldCount})">50" by 90"</a></li>
+                                <li><a class="dropdown-item body-regular gray600" href="#" onclick="updateSize('50&quot; by 60&quot;', ${fieldCount})">50" by 60"</a></li>
+                                <li><a class="dropdown-item body-regular gray600" href="#" onclick="updateSize('50&quot; by 30&quot;', ${fieldCount})">50" by 30"</a></li>
                             </ul>
+                            <input type="hidden" name="size" id="size${fieldCount}"></input>
                         </div>
                     </div>
                     <div class="form-group text-end" id="unitprice" style = "width:131px;padding-top: 4px;">
@@ -226,6 +239,26 @@
             }
             
 
+            {% comment %} function submitForm(event) {
+                event.preventDefault();
+                var formInfo = $('#drForm').serialize();
+                $.ajax({
+                    url: 'new_dr',
+                    type: 'POST', 
+                    data: {
+                        csrfmiddlewaretoken: '{{ csrf_token }}',
+                        formInfo,
+                    },
+                    success: function(response) {
+                        console.log("TEST");
+                        window.location.href = '/new_dr';
+                    },
+                    error: function(error) {
+                        console.error(error)
+                    }
+                });
+            } {% endcomment %}
+
 
         </script>    
     </div>
@@ -235,7 +268,7 @@
 <div class = "shadow" style = "background-color: white; width:100%; height:86px; position:fixed; bottom:0%">
     <div style = "display:flex; justify-content: right;">
         <div class = "h5-semibold gray900" style = "padding-right:36px; padding-top:31px"><span class = "h6-medium gray500" style = "padding-right:8px;">TOTAL:</span>₱ 0.00</div>
-        <button type = "submit" class = "btn btn-primary body-semibold" style = "width: 153px; margin-top:24px; margin-right:86px;">Confirm</button>
+        <button type="submit" class = "btn btn-primary body-semibold" style = "width: 153px; margin-top:24px; margin-right:86px;">Confirm</button>
         
     </div>
 </div>
