@@ -4,6 +4,34 @@ from datetime import date, timedelta
 
 # Create your models here.
 
+#Client
+class Client(models.Model):
+    client_ID = models.AutoField(primary_key=True) #Prue: Changed from IntegerField to AutoField. 
+    client_name = models.CharField(max_length=55)
+    client_address = models.CharField(max_length=255)
+    client_TIN = models.CharField(max_length=15)
+    objects = models.Manager()
+
+    def getClientID(self):
+        return self.client_ID
+    
+    def getClientName(self):
+        return self.client_name
+    
+    def getClientAddress(self):
+        return self.client_address
+    
+    def getClientTIN(self):
+        return self.client_TIN
+    
+    def __str__(self):
+        return (
+            f"Client ID: {self.client_ID}, "
+            f"Client Name: {self.client_name}, "
+            f"Client Address: {self.client_address}, "
+            f"Client TIN: {self.client_TIN}"
+        )
+
 #Product
 class Product(models.Model):
     product_ID = models.IntegerField(validators=[MaxValueValidator(999999)], null=False, primary_key=True) #Random 
@@ -63,9 +91,6 @@ class QuantityOrdered(models.Model):
 #Delivery Receipt
 class DeliveryReceipt(models.Model):
     dr_number = models.AutoField(primary_key=True)
-
-    
-
     dr_date = models.DateField(null=False, default=date.today)
     dr_due_date = models.DateField(null=False, default=date.today)
 
@@ -76,6 +101,7 @@ class DeliveryReceipt(models.Model):
     ]
 
     dr_terms = models.CharField(max_length=3, choices=terms, null=False)
+    client = models.ForeignKey(Client, on_delete=models.CASCADE, blank=True, null=False) #PRUE: Added this.
     product_id = models.ManyToManyField(Product, through=QuantityOrdered, blank=True, null=False)
 
     dr_amt_wo_vat = models.FloatField(null=False, blank=True, default = 0)
@@ -85,13 +111,16 @@ class DeliveryReceipt(models.Model):
         return self.dr_number
     
     def getDrAmtVat(self):
-        return self.dr_amt_vat
+        return "{:,.2f}".format(self.dr_amt_vat)
 
     def getDrAmtWoVat(self):
-        return self.dr_amt_wo_vat
+        return "{:,.2f}".format(self.dr_amt_wo_vat)
     
     def getDate(self):
         return self.dr_date
+    
+    def getTerms(self):
+        return self.dr_terms
 
     def getDueDate(self):
         return self.dr_due_date
@@ -105,41 +134,9 @@ class DeliveryReceipt(models.Model):
 
     def __str__(self):
         return (
-            f"DR Number: {self.dr_number}, "
+            f"DR Number: {self.dr_number}"
         )
      
-
-
-    
-
-
-#Client
-class Client(models.Model):
-    client_ID = models.IntegerField(validators=[MaxValueValidator(999999)], null=False, primary_key=True) #Random
-    client_name = models.CharField(max_length=55)
-    client_address = models.CharField(max_length=255)
-    client_TIN = models.CharField(max_length=15)
-    objects = models.Manager()
-
-    def clientID(self):
-        return self.client_ID
-    
-    def clientName(self):
-        return self.client_name
-    
-    def clientAddress(self):
-        return self.client_address
-    
-    def clientTIN(self):
-        return self.client_TIN
-    
-    def __str__(self):
-        return (
-            f"Client ID: {self.client_ID}, "
-            f"Client Name: {self.client_name}, "
-            f"Client Address: {self.client_address}, "
-            f"Client TIN: {self.client_TIN}"
-        )
     
 
 #Check (Payment)

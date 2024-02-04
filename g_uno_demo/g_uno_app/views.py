@@ -39,6 +39,7 @@ def add_dr(request):
     # Saves new_DRnumber only in memory until user actually clicks the confirm button in add_dr.html 
     dr_instance = DeliveryReceipt(dr_number=new_DRnumber)
 
+
     context = {
         'c': dr_instance,
         #'d': client_instance, (for suggested client_name inputs)
@@ -48,19 +49,33 @@ def add_dr(request):
 
 def new_dr(request):
     if(request.method == "POST"):
+        #Client-related inputs 
+        inp_clientName = request.POST.get("client_name")
+        inp_clientAddress = request.POST.get("client_address")
+        inp_clientTIN = request.POST.get("client_TIN")
+
         inp_terms = request.POST.get("terms")
         inp_quantity = request.POST.get("inp_quantity")
         inp_product = request.POST.get("inp_product")
         inp_size = request.POST.get("inp_size")
 
-        dr_instance = DeliveryReceipt.objects.create(dr_terms=inp_terms)
+        #get_or_create() - https://www.letscodemore.com/blog/django-get-or-create/
+        client_instance, created = Client.objects.get_or_create(
+            client_name = inp_clientName, #Checks if client already exists 
+            defaults = {"client_address": inp_clientAddress, "client_TIN": inp_clientTIN}
+        )
+
+        if created: 
+            client_instance.save()  
+
+        dr_instance = DeliveryReceipt.objects.create(dr_terms=inp_terms, client=client_instance)
         dr_instance.dr_due_date = dr_instance.dr_date + timedelta(days=int(inp_terms))
 
         chosen_product = Product.objects.get(product_name__iexact = inp_product, size__iexact = inp_size)
         order_quantity_instance = QuantityOrdered.objects.create(dr = dr_instance, product = chosen_product, quantity = inp_quantity)
 
         dr_instance.product_id.add(chosen_product)
-
+ 
         dr_instance.dr_amt_wo_vat = float(order_quantity_instance.getQuantity()) * float(chosen_product.getUnitPrice())
         dr_instance.dr_amt_vat = dr_instance.dr_amt_wo_vat * 1.12
         dr_instance.save()
@@ -69,9 +84,10 @@ def new_dr(request):
 
 
         context = {
-            'a':chosen_product,
+            'a': chosen_product,
             'b': order_quantity_instance,
             'c': dr_instance,
+            'd': client_instance,
         }
         
 

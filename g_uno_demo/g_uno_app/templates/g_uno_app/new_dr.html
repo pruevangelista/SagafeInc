@@ -1,12 +1,26 @@
-<h1> This is the new DR! :D </h1>
+<h1> New DR </h1>
 
+<!-- Client Details -->
+<h4>Client Details</h4>
+<p>Client ID: {{ d.getClientID }} </p>
+<p>Client Name: {{ d.getClientName }} </p>
+<p>Client Address: {{ d.getClientAddress }} </p>
+<p>Client TIN: {{ d.getClientTIN }} </p>
+<br>
+
+<!-- Order Details  -->
+<h4>Order Details</h4>
 <p>Product Name: {{ a.getProductName }}</p>
 <p>Product Size: {{ a.getSize }}</p>
 <p>Product Quantity: {{ b.getQuantity }}</p>
 <br>
+
+<!-- DR Details -->
+<h4>DR Details</h4>
 <p>DR Number: {{ c.formatDrNumber }}</p>
 <p>DR Date: {{ c.getDate }}</p>
-<p>DR Due Date{{ c.getDueDate }}</p>
+<p>DR Terms: {{ c.getTerms }} </p>
+<p>DR Due Date: {{ c.getDueDate }}</p>
 <p>DR Amount Without Vat: {{ c.getDrAmtWoVat }}</p>
 <p>DR Amount + Vat: {{ c.getDrAmtVat }}</p>
 
