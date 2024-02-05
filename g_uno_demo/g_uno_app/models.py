@@ -127,12 +127,20 @@ class Client(models.Model):
     def getClientTIN(self):
         return self.client_TIN
     
+    # Prue: added this. 
+    def formatClientTIN(self):
+        # Split TIN into parts and create list 
+        parts = [self.client_TIN[i:i + 3] for i in range(0, len(self.client_TIN), 3)]
+        formatted_TIN = "-".join(parts)
+
+        return formatted_TIN
+    
     def __str__(self):
         return (
             f"Client ID: {self.client_ID}, "
             f"Client Name: {self.client_name}, "
             f"Client Address: {self.client_address}, "
-            f"Client TIN: {self.client_TIN}"
+            f"Client TIN: {self.formatClientTIN()}"
         )
     
 
