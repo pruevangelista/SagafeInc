@@ -1,0 +1,249 @@
+{% extends 'g_uno_app/base.html' %}
+{% load static %}
+{% load bootstrap_icons %}
+
+{% block content %} 
+
+<div style = "display:flex; justify-content: space-between; padding-top:72px; vertical-align: center; padding-left:136px; padding-bottom: 32px; padding-right:136px;">
+    <div style = "padding-top:8px;">
+        <button type = "button" class = "btn btn-outline-info body-regular" style = "margin-right: 8px; vertical-align: text-top;"><span style = "color: #94a3b8; font-size:16px; padding-right:10px; vertical-align: 0px;"><i class="bi bi-chevron-left" style = "-webkit-text-stroke: 1px;"></i></span>Back</button>
+    </div>
+    <div class = "h1-semibold gray700">
+        Add a Delivery Receipt
+    </div>
+    <div style = "padding-top:8px;">
+        <button type = "button" class = "btn btn-outline-info disabled body-regular" style = "margin-right: 8px; vertical-align: text-top; opacity: 0%;"><span style = "color: #94a3b8; font-size:16px; padding-right:10px; vertical-align: 0px; opacity: 0%;"><i class="bi bi-chevron-left" style = "-webkit-text-stroke: 1px;"></i></span>Back</button>
+    </div>
+</div>
+
+
+
+<div class = "shadow" style = "background-color: white; border-radius: 16px; margin-left:72px; margin-right:72px; margin-bottom:171px">
+    <div style = "padding-left: 64px; padding-right: 64px; padding-top: 64px; padding-bottom:48px;">
+        <div style = "display:flex; justify-content: space-between; padding-bottom:24px;">
+            <div class = "h4-medium gray700" style = "display: flex; justify-content: space-between;">
+                Basic DR Details
+            </div>
+            <div class = "h5-medium" style = "display: flex; justify-content: space-between;">
+                <div class = "gray400">
+                    DR No. <span class = "gray700">17-243</span>
+                </div>
+            </div>
+        </div>
+        <div>
+            {% comment %} PRODUCT {% endcomment %}
+            <div style = "display:flex; justify-content: space-between; padding-bottom:16px;">
+                <div class="form-group required" id="clientnameDiv" style = "width:820px">
+                    <label for="clientname" class = "gray500 justify-content-left control-label body-regular" required="required" style = "padding-bottom: 8px;"> Client Name </label>
+                    <input type="text" id="clientname" name="clientname" class="form-control body-regular gray800" required="required" placeholder="Enter name" style = "color:#6C757D; display:inline;">
+                </div>
+                <div class="form-group" id="datecreated" style = "width:130px;">
+                    <div class = "gray500 justify-content-left body-regular" style = "padding-bottom: 8px;"> Date Created </div>
+                    <div class="lead gray700" id="datecreated" name="datecreated" style = "display:inline;">06/21/2023</div>
+                </div>
+                <div class="form-group required" id="terms" style = "width:160px">
+                    <label for="terms" class = "gray500 justify-content-left control-label body-regular" required="required" style = "padding-bottom: 8px;"> Terms </label>
+                    <div class = "dropdown">
+                        <a class = "btn btn-outline-dark" style = "width:160px; display: flex; justify-content: space-between;" href = "#" role = "button" data-bs-toggle="dropdown" aria-expanded="false">Select Terms<i class="bi bi-chevron-down" style = "-webkit-text-stroke: 1px; right:10px"></i></a>
+                        <ul class="dropdown-menu shadow" style = "width:160px;">
+                            <li><a class="dropdown-item body-regular gray600" href="#">90 days</a></li>
+                            <li><a class="dropdown-item body-regular gray600" href="#">120 days</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            {% comment %}  {% endcomment %}
+            <div style = "display:flex; justify-content: space-between;">
+                <div class="form-group required" id="clientaddressDiv" style = "width:820px">
+                    <label for="clientaddress" class = "gray500 justify-content-left control-label body-regular" required="required" style = "padding-bottom: 8px;"> Client Address </label>
+                    <input type="text" id="clientaddress" name="clientaddress" class="form-control body-regular gray800" required="required" placeholder="Enter address" style = "display:inline;">
+                </div>
+                <div class="form-group required" id="clienttinDiv" style = "width:315px">
+                    <label for="clienttin" class = "gray500 justify-content-left control-label body-regular" required="required" style = "padding-bottom: 8px;"> Client Tin </label>
+                    <input type="text" id="clienttin" name="clienttin" class="form-control body-regular gray800" required="required" placeholder="Enter TIN Number" style = "display:inline;">
+                </div>
+            </div>
+            
+        </div>
+    </div> 
+    <div style = "padding-left: 64px; padding-right: 64px; padding-bottom: 64px;">
+        <div class = "h4-medium gray700" style = "display: flex; justify-content: left; padding-bottom: 24px;">
+            Product Details
+        </div>
+        {% comment %} Dynamic {% endcomment %}
+        <div style = "display:flex; justify-content: space-between;padding-right:44px;">
+            <div class="form-group required" id="clientnameDiv" style = "width:103px">
+                <label for="clientname" class = "gray500 justify-content-left control-label body-regular" required="required" style = "padding-bottom: 16px;"> Quantity </label>
+                <input type="text" id="clientname" name="clientname" class="form-control body-regular gray800" required="required" placeholder="Qty" style = "display:inline;">
+            </div>
+            <div class="form-group" id="unit" style = "width:68px;">
+                <div class = "gray500 justify-content-left body-regular" style = "padding-bottom: 22px;"> Unit </div>
+                <div class="lead gray700" id="unit" name="unit" style = "display:inline;">Sheets</div>
+            </div>
+            <div class="form-group required" id="productchoice" style = "width:352px;">
+                <label for="productchoice" class = "gray500 justify-content-left control-label body-regular" required="required" style = "padding-bottom: 16px;"> Product </label>
+                <input class="form-control body-regular gray800" list="datalistOptions" id="exampleDataList" placeholder="Type to search product..." style = "color:#6C757D; display:inline;">
+                <datalist id="datalistOptions">
+                    <option value="Vinyl Sticker Indoor">
+                    <option value="Vinyl Sticker Outdoor">
+                    <option value="Matte Sticker Indoor">
+                    <option value="Matte Sticker Outdoor">
+                </datalist>
+            </div>
+            <div class="form-group required" id="sizechoice" style = "width:200px">
+                <label for="sizechoice" class = "gray500 justify-content-left control-label body-regular" required="required" style = "padding-bottom: 16px;"> Size </label>
+                <div class = "dropdown">
+                    <a class = "btn btn-outline-dark" style = "width:200px; display: flex; justify-content: space-between;" href = "#" role = "button" data-bs-toggle="dropdown" aria-expanded="false">Select Size<i class="bi bi-chevron-down" style = "-webkit-text-stroke: 1px; right:10px"></i></a>
+                    <ul class="dropdown-menu shadow" style = "width:200px;">
+                        <li><a class="dropdown-item body-regular gray600" href="#">50" by 90"</a></li>
+                        <li><a class="dropdown-item body-regular gray600" href="#">50" by 60"</a></li>
+                        <li><a class="dropdown-item body-regular gray600" href="#">50" by 30"</a></li>
+                    </ul>
+                </div>
+            
+            </div>
+            <div class="form-group text-end" id="unitprice" style = "width:131px;">
+                <div class = "gray500 justify-content-left body-regular" style = "padding-bottom: 22px;"> Unit Price </div>
+                <div class="lead gray700" id="unitprice" name="unitprice" style = "display:inline;">₱ 850.00</div>
+            </div>
+            <div class="form-group text-end" id="unitprice" style = "width:133px;">
+                <div class = "gray500 justify-content-left body-regular" style = "padding-bottom: 22px;"> Subtotal</div>
+                <div class="lead gray700" id="unitprice" name="unitprice" style = "display:inline;">₱ 2,550.00</div>
+            </div>
+            
+        </div>
+        
+
+        <div id = "newProduct">
+
+        </div>
+        
+        <div style = "padding-top:24px;">
+            <button type = "button" onclick = "addProduct()" class = "btn btn-link body-regular"><span style = "font-size:16px; padding-right:10px; vertical-align: 0px;"><i class="bi bi-plus-lg" style = "-webkit-text-stroke: 1px;"></i></span>Add Product</button>
+            
+        </div>
+        
+        <script>
+            // JavaScript function to add a new field
+            let fieldCount = 1;
+            function addProduct() {
+                fieldCount++;
+                
+                // Get the container element where new fields will be added
+                const container = document.getElementById('newProduct');
+          
+                // Create a new field set div
+                const newField = document.createElement('div');
+          
+                // Define the inner HTML for the new field set
+                newField.innerHTML = `
+                <div class = "prod" style = "display:flex; justify-content: space-between; padding-top:16px">
+                    <div class="form-group required" id="clientnameDiv" style = "width:103px">
+                        <input type="text" id="clientname${fieldCount}" name="clientname${fieldCount}" class="form-control body-regular gray800" required="required" placeholder="Qty" style = "display:inline;">
+                    </div>
+                    <div class="form-group" id="unit" style = "width:68px; padding-top: 4px;">
+                        <div class="lead gray700" id="unit${fieldCount}" name="unit${fieldCount}" style = "display:inline;">Sheets</div>
+                    </div>
+                    <div class="form-group required" id="productchoice${fieldCount}" style = "width:352px;">
+                        <input class="form-control body-regular gray800" list="datalistOptions" id="exampleDataList" placeholder="Type to search product..." style = "color:#6C757D; display:inline;">
+                        <datalist id="datalistOptions">
+                            <option value="Vinyl Sticker Indoor">
+                            <option value="Vinyl Sticker Outdoor">
+                            <option value="Matte Sticker Indoor">
+                            <option value="Matte Sticker Outdoor">
+                        </datalist>
+                    </div>
+                    <div class="form-group required" id="sizechoice${fieldCount}" style = "width:200px">
+                        <div class = "dropdown size">
+                            <a class = "btn btn-outline-dark" style = "width:200px; display: flex; justify-content: space-between;" href = "#" role = "button" data-bs-toggle="dropdown" aria-expanded="false">Select Size<i class="bi bi-chevron-down" style = "-webkit-text-stroke: 1px; right:10px"></i></a>
+                            <ul class="dropdown-menu shadow" style = "width:200px;">
+                                <li><a class="dropdown-item body-regular gray600" href="#">50" by 90"</a></li>
+                                <li><a class="dropdown-item body-regular gray600" href="#">50" by 60"</a></li>
+                                <li><a class="dropdown-item body-regular gray600" href="#">50" by 30"</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="form-group text-end" id="unitprice${fieldCount}" style = "width:131px;padding-top: 4px;">
+                        <div class="lead gray700" id="unitprice" name="unitprice" style = "display:inline;">₱ 850.00</div>
+                    </div>
+                    <div class="form-group text-end" id="unitprice${fieldCount}" style = "width:133px;padding-top: 4px;">
+                        <div class="lead gray700" id="unitprice" name="unitprice" style = "display:inline;">₱ 2,550.00</div>
+                    </div>
+
+                    <a onclick = "deleteProduct(event)" style = "width:20px; padding-top:6px" ><i class="bi bi-trash-fill red600" style = "-webkit-text-stroke: 0px;"></i></a>
+                    
+                </div>
+              `;
+          
+                // Append the new field set div to the container
+                container.appendChild(newField);
+            }
+          
+            
+            
+            document.addEventListener('DOMContentLoaded', function () {
+                // Add click event listener to the document for event delegation
+                document.addEventListener('click', function (event) {
+                    const clickedElement = event.target;
+
+                    // Check if the clicked element is a dropdown item
+                    if (clickedElement.classList.contains('dropdown-item')) {
+                        event.preventDefault();
+
+                        // Get the closest dropdown parent
+                        const dropdown = clickedElement.closest('.dropdown');
+
+                        if (dropdown) {
+                            // Get the button inside the dropdown
+                            const dropdownButton = dropdown.querySelector('.btn');
+
+                            // Set the title of the dropdown button to the text of the clicked item
+                            dropdownButton.innerHTML = `${clickedElement.innerText} <i class="bi bi-chevron-down" style = "-webkit-text-stroke: 1px; right:10px"></i>`;
+                        }
+
+                    }
+                    
+                });
+            });
+            
+
+            // JavaScript function to delete a field
+            function deleteProduct(event) {
+                
+                // Prevent the default behavior of the anchor tag
+                event.preventDefault();
+
+                // Get the parent element (the div containing the product) using closest
+                const productDiv = event.target.closest('.prod');
+
+                // Check if a product div is found
+                if (productDiv) {
+                    // Remove the product div from its parent container
+                    productDiv.remove();
+                    fieldCount--;
+                } else {
+                    console.error('No product div found.');
+                }
+                // Stop event propagation to prevent it from reaching other click event listeners
+                event.stopPropagation();
+                
+            }
+            
+
+
+        </script>    
+    </div>
+    
+</div>
+
+<div class = "shadow" style = "background-color: white; width:100%; height:86px; position:fixed; bottom:0%">
+    <div style = "display:flex; justify-content: right;">
+        <div class = "h5-semibold gray900" style = "padding-right:36px; padding-top:31px"><span class = "h6-medium gray500" style = "padding-right:8px;">TOTAL:</span>₱ 0.00</div>
+        <button type = "button" class = "btn btn-primary body-semibold" style = "width: 153px; margin-top:24px; margin-right:86px;">Confirm</button>
+        
+    </div>
+</div>
+
+
+
+{% endblock %}
