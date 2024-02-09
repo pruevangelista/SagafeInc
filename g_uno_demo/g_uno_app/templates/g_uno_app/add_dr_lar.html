@@ -6,7 +6,8 @@
 
 <div style = "display:flex; justify-content: space-between; padding-top:72px; vertical-align: center; padding-left:136px; padding-bottom: 32px; padding-right:136px;">
     <div style = "padding-top:8px;">
-        <button type = "button" class = "btn btn-outline-info body-regular" style = "margin-right: 8px; vertical-align: text-top;"><span style = "color: #94a3b8; font-size:16px; padding-right:10px; vertical-align: 0px;"><i class="bi bi-chevron-left" style = "-webkit-text-stroke: 1px;"></i></span>Back</button>
+        <!-- Prue: onclick -->
+        <button type = "button" onclick="goHome()" class = "btn btn-outline-info body-regular" style = "margin-right: 8px; vertical-align: text-top;"><span style = "color: #94a3b8; font-size:16px; padding-right:10px; vertical-align: 0px;"><i class="bi bi-chevron-left" style = "-webkit-text-stroke: 1px;"></i></span>Back</button>
     </div>
     <div class = "h1-semibold gray700">
         Add a Delivery Receipt
@@ -26,7 +27,7 @@
             </div>
             <div class = "h5-medium" style = "display: flex; justify-content: space-between;">
                 <div class = "gray400">
-                    DR No. <span class = "gray700">17-243</span>
+                    DR No. <span class = "gray700">{{ c.formatDrNumber }}</span>
                 </div>
             </div>
         </div>
@@ -38,7 +39,7 @@
                 </div>
                 <div class="form-group" id="datecreated" style = "width:130px;">
                     <div class = "gray500 justify-content-left body-regular" style = "padding-bottom: 8px;"> Date Created </div>
-                    <div class="lead gray700" id="datecreated" name="datecreated" style = "display:inline;">06/21/2023</div>
+                    <div class="lead gray700" id="datecreated" name="datecreated" style = "display:inline;">{{ c.formatDate }}</div>
                 </div>
                 <div class="form-group required" id="terms" style = "width:160px">
                     <label for="terms" class = "gray500 justify-content-left control-label body-regular" required="required" style = "padding-bottom: 8px;"> Terms </label>
@@ -58,7 +59,7 @@
                     <input type="text" id="clientaddress" name="clientaddress" class="form-control body-regular gray800" required="required" placeholder="Enter address" style = "display:inline;">
                 </div>
                 <div class="form-group required" id="clienttinDiv" style = "width:315px">
-                    <label for="clienttin" class = "gray500 justify-content-left control-label body-regular" required="required" style = "padding-bottom: 8px;"> Client Tin </label>
+                    <label for="clienttin" class = "gray500 justify-content-left control-label body-regular" required="required" style = "padding-bottom: 8px;"> Client TIN </label>
                     <input type="text" id="clienttin" name="clienttin" class="form-control body-regular gray800" required="required" placeholder="Enter TIN Number" style = "display:inline;">
                 </div>
             </div>
@@ -123,6 +124,11 @@
         </div>
         
         <script>
+            // Prue: Function for the back button
+            function goHome() {
+                window.location.href = '/';
+            }
+            
             // JavaScript function to add a new field
             let fieldCount = 1;
             function updateTerm(value) {

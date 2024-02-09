@@ -35,6 +35,12 @@ def add_dr(request):
 
 def new_dr(request):
     if(request.method == "POST"):
+        # Client 
+        inp_clientName = request.POST.get("TEST")
+        inp_clientAddress = request.POST.get("clientaddress")
+        inp_clientTIN = request.POST.get("clienttin")
+
+        # DR
         inp_terms = request.POST.get("inputTerms")
 
         # Products
@@ -44,7 +50,16 @@ def new_dr(request):
         print(inp_size)
 
         # Instances
-        dr_instance = DeliveryReceipt.objects.create(dr_terms=inp_terms)
+        #get_or_create() - https://www.letscodemore.com/blog/django-get-or-create/
+        client_instance, created = Client.objects.get_or_create(
+            client_name = inp_clientName, #Checks if client already exists 
+            defaults = {"client_address": inp_clientAddress, "client_TIN": inp_clientTIN}
+        )
+
+        if created: 
+            client_instance.save() 
+
+        dr_instance = DeliveryReceipt.objects.create(dr_terms=inp_terms, client=client_instance)
         dr_instance.dr_due_date = dr_instance.dr_date + timedelta(days=int(inp_terms))
 
         gen_subtotal = []
@@ -68,6 +83,7 @@ def new_dr(request):
             'a':chosen_product,
             'b': order_quantity_instance,
             'c': dr_instance,
+            'd': client_instance,
         }
 
         # return render(request, 'g_uno_app/new_dr.html', context) #implement pk 
@@ -77,7 +93,23 @@ def new_dr(request):
         return render(request, 'g_uno_app/new_dr.html') #implement pk 
 
 def add_dr_lar(request):
-    return render(request, 'g_uno_app/add_dr_lar.html')
+    # Checks if the latest DR instance exists and retrieves its dr_number
+    if DeliveryReceipt.objects.exists(): 
+        latest_DRinstance = DeliveryReceipt.objects.latest('dr_number')
+        latest_DRnumber = latest_DRinstance.dr_number 
+        new_DRnumber = latest_DRnumber + 1 
+    else: 
+        new_DRnumber = 1
+
+    # Saves new_DRnumber only in memory until user actually clicks the confirm button in add_dr.html 
+    dr_instance = DeliveryReceipt(dr_number=new_DRnumber)
+
+    context = {
+        'c': dr_instance,
+        #'d': client_instance, (for suggested client_name inputs)
+        #'e': product_instance, (for suggested product_name inputs)
+    }
+    return render(request, 'g_uno_app/add_dr_lar.html', context)
 
 def view_dr(request):
     deliveryReceipts = DeliveryReceipt.objects.all()

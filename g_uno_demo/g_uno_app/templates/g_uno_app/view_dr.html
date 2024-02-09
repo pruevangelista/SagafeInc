@@ -5,7 +5,8 @@
 {% block content %} 
 
 <div style = "padding-top:64px; padding-left:122px">
-    <button type = "button" class = "btn btn-outline-info body-regular" style = "margin-right: 8px; vertical-align: text-top;"><span style = "color: #94a3b8; font-size:16px; padding-right:10px; vertical-align: 0px;"><i class="bi bi-chevron-left" style = "-webkit-text-stroke: 1px;"></i></span>Back</button>
+    <!-- Prue: onclick -->
+    <button type = "button" onclick="goHome()" class = "btn btn-outline-info body-regular" style = "margin-right: 8px; vertical-align: text-top;"><span style = "color: #94a3b8; font-size:16px; padding-right:10px; vertical-align: 0px;"><i class="bi bi-chevron-left" style = "-webkit-text-stroke: 1px;"></i></span>Back</button>
 </div>
 <div style = "padding-top:16px; padding-left:131px">
     <div style = "display: flex; gap:24px">
@@ -32,6 +33,11 @@
 
 
 <script>
+    // Prue: Function for the back button
+    function goHome() {
+        window.location.href = '/';
+    }
+
     document.addEventListener('DOMContentLoaded', function () {
         // Add click event listener to the document for event delegation
         document.addEventListener('click', function (event) {

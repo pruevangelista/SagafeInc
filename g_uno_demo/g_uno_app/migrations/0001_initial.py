@@ -26,12 +26,25 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='DeliveryReceipt',
             fields=[
-                ('dr_number', models.AutoField(primary_key=True, serialize=False)),
-                ('dr_date', models.DateField(default=datetime.date.today)),
-                ('dr_due_date', models.DateField(default=datetime.date.today)),
-                ('dr_terms', models.CharField(choices=[('90', '90'), ('120', '120')], max_length=3)),
-                ('dr_amt_wo_vat', models.FloatField(blank=True, default=0)),
-                ('dr_amt_vat', models.FloatField(blank=True, default=0)),
+                ("dr_number", models.AutoField(primary_key=True, serialize=False)),
+                ("dr_date", models.DateField(default=datetime.date.today)),
+                ("dr_due_date", models.DateField(default=datetime.date.today)),
+                (
+                    "dr_terms",
+                    models.CharField(
+                        choices=[("90", "90"), ("120", "120")], max_length=3
+                    ),
+                ),
+                ("dr_amt_wo_vat", models.FloatField(blank=True, default=0)),
+                ("dr_amt_vat", models.FloatField(blank=True, default=0)),
+                (
+                    "client",
+                    models.ForeignKey(
+                        blank=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="g_uno_app.client",
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
