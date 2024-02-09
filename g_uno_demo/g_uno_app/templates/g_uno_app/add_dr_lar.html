@@ -18,7 +18,8 @@
 </div>
 
 
-<form method="POST" action = "{% url 'new_dr' %}"> {% csrf_token %}
+<form method="POST" action = "{% url 'new_dr' %}"> 
+{% csrf_token %}
 <div class = "shadow" style = "background-color: white; border-radius: 16px; margin-left:72px; margin-right:72px; margin-bottom:171px">
     <div style = "padding-left: 64px; padding-right: 64px; padding-top: 64px; padding-bottom:48px;">
         <div style = "display:flex; justify-content: space-between; padding-bottom:24px;">
