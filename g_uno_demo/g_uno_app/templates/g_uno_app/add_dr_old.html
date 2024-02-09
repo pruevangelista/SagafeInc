@@ -1,0 +1,133 @@
+{% extends 'g_uno_app/base.html' %}
+{% load static %}
+{% load bootstrap_icons %}
+
+{% block content %} 
+<style>
+    .top { 
+        margin: 10px; 
+        display: flex; 
+    }
+
+    h1 { 
+        padding: 10px; 
+    }
+
+    .header1 {
+        display: flex; 
+        justify-content: space-between;
+    }
+
+    .header2 { 
+        padding-top: 20px; 
+    }
+
+    .add_product_btn { 
+        margin-top: 10px; 
+    }
+
+    .bottom {
+        display: flex; 
+        justify-content: end; 
+    }
+
+    .confirm_btn { 
+        margin-left: 20px; 
+        margin-right: 50px;  
+    }
+</style>
+
+<div class="container">
+    <div class="top">
+        <!-- OKAY: When clicked, return to dr_home. -->
+        <a href="{% url 'dr_home' %}" name = "Back">Back</a>
+        <h1>Add a Delivery Receipt</h1> 
+    </div>
+    <!-- Create Delivery Receipt Form -->
+    <form class = "delivery_receipt" action = "{% url 'new_dr' %}" method = "POST">{% csrf_token %}
+        <div class="dr_details">
+            <div class="header1">
+                <h4>Basic DR Details</h5>
+                <!-- AUTOMATICALLY UPDATES based on latest DR No. -->
+                <input type="hidden" name="dr_number" value="{{ c.getDrNumber }}">
+                <h5>DR No. {{ c.formatDrNumber }}</h5>
+            </div>
+            <label for="client_name">Client Name:</label>
+            <input type="text" placeholder="Enter Name">
+            <label for="date_created">Date Created: {{ c.formatDate }}</label>
+            <!-- DROPDOWN -->
+            <label for="terms">Terms:</label>
+            <select name="terms" id="terms">
+                <option value="" selected disabled>Select Terms</option>
+                <option value="90">90</option>
+                <option value="120">120</option>
+            </select>
+            <!-- DROPDOWN -->
+            <br>
+            <label for="client_address">Client Address:</label>
+            <input type="text" placeholder="Enter Address">
+            <label for="client_tin">Client TIN:</label>
+            <input type="text" placeholder="Enter TIN">
+        </div>
+        <div class="product_details">
+            <div class="header2">
+                <h4>Product Details</h4>
+            </div>
+            <label for="quantity">Quantity:</label>
+            <input type="number" placeholder="Qty." name="inp_quantity[]">
+            <!-- REMOVE INPUT: Unit should be automatic based on the product selected -->
+            <!-- <label for="unit">Unit: {{ e.getUnit }} </label> -->
+            <label for="unit">Unit: </label disabled>
+            <input type="text" placeholder="Sheets" disabled>
+            <label for="product">Product:</label>
+            <input type="text" placeholder="Select Product" name = "inp_product[]">
+            <label for="size">Size:</label>
+            <input type="text" placeholder="Select Size" name = "inp_size[]">
+            <!-- REMOVE INPUT: Should be automatically calculated based on the database considering the product and its size -->
+            <!-- <label for="unit_price">Unit Price: {{ e.getUnitPrice }}</label> -->
+            <label for="unit_price">Unit Price:</label>
+            <input type="text" placeholder="P0.00" disabled>
+            <!-- REMOVE INPUT: Should be automatically calculated based on the product of unit price and quantity -->
+            <label for="subtotal">Subtotal:</label>
+            <input type="text" placeholder="P0.00" disabled>
+            <br>
+            <!-- ADD PRODUCT BUTTON: When clicked, append a new product details form / row of another product client will buy. -->
+            <button class="add_product_btn">Add Product</button>
+        </div>
+
+        <div class="product_details">
+            <div class="header2">
+                <h4>Product Details</h4>
+            </div>
+            <label for="quantity">Quantity:</label>
+            <input type="number" placeholder="Qty." name="inp_quantity[]">
+            <!-- REMOVE INPUT: Unit should be automatic based on the product selected -->
+            <!-- <label for="unit">Unit: {{ e.getUnit }} </label> -->
+            <label for="unit">Unit: </label disabled>
+            <input type="text" placeholder="Sheets" disabled>
+            <label for="product">Product:</label>
+            <input type="text" placeholder="Select Product" name = "inp_product[]">
+            <label for="size">Size:</label>
+            <input type="text" placeholder="Select Size" name = "inp_size[]">
+            <!-- REMOVE INPUT: Should be automatically calculated based on the database considering the product and its size -->
+            <!-- <label for="unit_price">Unit Price: {{ e.getUnitPrice }}</label> -->
+            <label for="unit_price">Unit Price:</label>
+            <input type="text" placeholder="P0.00" disabled>
+            <!-- REMOVE INPUT: Should be automatically calculated based on the product of unit price and quantity -->
+            <label for="subtotal">Subtotal:</label>
+            <input type="text" placeholder="P0.00" disabled>
+            <br>
+            <!-- ADD PRODUCT BUTTON: When clicked, append a new product details form / row of another product client will buy. -->
+            <button class="add_product_btn">Add Product</button>
+        </div>
+        <div class="bottom">
+            <!-- Total should be automatically calculated based on the subtotal -->
+            <h5>Total: <span id="total">P0.00</span></h5>
+            <!-- CONFIRM BUTTON: Submit form. Creates DR in database. Redirects user to new_dr page. -->
+            <button class ="confirm_btn" type="submit">Confirm</button>
+        </div>
+    </form>
+    </div>
+</div>
+
+{% endblock %}

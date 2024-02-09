@@ -36,6 +36,9 @@ class Product(models.Model):
     def getUnitPrice(self):
         return self.unit_price 
     
+    def formatUnitPrice(self):
+        return "{:,.2f}".format(self.unit_price)
+    
     def __str__(self):
         return ( 
             f"Product ID: {self.product_ID}, "
@@ -60,6 +63,13 @@ class QuantityOrdered(models.Model):
     
     def getQuantity(self):
         return self.quantity
+    
+    def getSubtotal(self):
+        return self.subtotal
+    
+    def formatSubtotal(self):
+        return "{:,.2f}".format(self.subtotal)
+    
 
 #Delivery Receipt
 class DeliveryReceipt(models.Model):
@@ -80,6 +90,15 @@ class DeliveryReceipt(models.Model):
     dr_amt_wo_vat = models.FloatField(null=False, blank=True, default = 0)
     dr_amt_vat = models.FloatField(null=False, blank=True, default = 0)
 
+    #ENUM: DR Payment Status
+    payment_status = [ 
+        ("Not Paid", "Not Paid"),
+        ("Partially Paid", "Partially Paid"),
+        ("Fully Paid", "Fully Paid")
+    ]
+
+    dr_payment_status = models.CharField(max_length=15, choices=payment_status, default="Not Paid", null=False)
+
     def getDrNumber(self):
         return self.dr_number
     
@@ -94,6 +113,12 @@ class DeliveryReceipt(models.Model):
 
     def getDueDate(self):
         return self.dr_due_date
+    
+    def getTerms(self):
+        return self.dr_terms
+    
+    def getPaymentStatus(self):
+        return self.dr_payment_status
     
     def formatDrNumber(self):
         return "{:02d}-{:03d}".format(self.dr_number // 1000, self.dr_number % 1000)

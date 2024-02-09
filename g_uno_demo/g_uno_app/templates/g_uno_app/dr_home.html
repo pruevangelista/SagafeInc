@@ -6,14 +6,7 @@
 
 <div style = "display:flex; justify-content: space-between; padding-top:8px;">
     <div class = "h3-medium" style = "vertical-align: 2px;">Delivery Receipts</div>
-    <!-- EDITED BY PRUE: When clicked, head to add_dr. -->
-    <a href="{% url 'add_dr_lar' %}" class="btn btn-primary body-semibold">
-        <span style="color: #c4b5fd; font-size:16px; padding-right:10px; vertical-align: 0px;">
-            <i class="bi bi-plus-lg" style="-webkit-text-stroke: 1px;"></i>
-        </span>
-        Add a Delivery Receipt
-    </a>    
-    <!-- <button type = "button" class = "btn btn-primary body-semibold"><span style = "color: #c4b5fd; font-size:16px; padding-right:10px; vertical-align: 0px;"><i class="bi bi-plus-lg" style = "-webkit-text-stroke: 1px;"></i></span>Add a Delivery Receipt</button> -->
+    <button type = "button" onclick="window.location.href = '{% url 'add_dr' %}'" class = "btn btn-primary body-semibold"><span style = "color: #c4b5fd; font-size:16px; padding-right:10px; vertical-align: 0px;"><i class="bi bi-plus-lg" style = "-webkit-text-stroke: 1px;"></i></span>Add a Delivery Receipt</button>
 </div>
 <div style = "display:flex; justify-content: space-between; padding-top:16px;">
     <div>
@@ -55,6 +48,8 @@
 
             </thead>
             <tbody>
+                <!-- PRUE: To make all existing DRs appear in dr_home. Added if template tag for DR payment status as well. -->
+                {% for dr in drs %}
                 <tr>
                     <td class="table small-regular gray800" style = "width:24px;"> </td>
                     <td class="table body-semibold gray800" style="width:0px; padding-top:18px; padding-left:16px; padding-right:16px; padding-bottom:16px;" scope="col">
@@ -62,17 +57,24 @@
                             <input class="form-check-input" type="checkbox" id="gridCheck">
                         </div>
                     </td>
-                    <td class="table small-regular gray500" style = "width:150px; padding-top:20px; padding-left:20px; padding-bottom:16px;"> Jun 01, 2023 </td>
-                    <td class="table small-regular gray500" style = "width:97px; padding-top:20px; padding-left:16px; padding-bottom:16px;"> 17-235 </td>
-                    <td class="table small-regular gray500" style = "width:300px; padding-top:20px; padding-left:16px; padding-bottom:16px;"> DHL Express </td>
-                    <td class="table small-regular gray500" style = "width:180px; padding-top:20px; padding-left:16px; padding-bottom:16px; text-align: right;"> P 10,090.10 </td>
-                    <td class="table small-regular gray500" style = "width:150px; padding-top:20px; padding-left:16px; padding-bottom:16px;"> Sept 29, 2023 </td>
+                    <td class="table small-regular gray500" style = "width:150px; padding-top:20px; padding-left:20px; padding-bottom:16px;"> {{ dr.getDate }} </td>
+                    <td class="table small-regular gray500" style = "width:97px; padding-top:20px; padding-left:16px; padding-bottom:16px;"> {{ dr.formatDrNumber }} </td>
+                    <td class="table small-regular gray500" style = "width:300px; padding-top:20px; padding-left:16px; padding-bottom:16px;"> {{ dr.client.getClientName }} </td>
+                    <td class="table small-regular gray500" style = "width:180px; padding-top:20px; padding-left:16px; padding-bottom:16px; text-align: right;"> ₱ {{ dr.getDrAmtWoVat }} </td>
+                    <td class="table small-regular gray500" style = "width:150px; padding-top:20px; padding-left:16px; padding-bottom:16px;"> {{ dr.getDueDate }} </td>
+                    {% if dr.getPaymentStatus == "Not Paid" %}
+                    <td class="table small-regular gray500" style = "width:134px; padding-top:16px; padding-left:16px; padding-bottom:8px;"> <span class="badge rounded-pill bg-danger small-bold">Not Paid</span> </td> 
+                    {% elif dr.getPaymentStatus == "Partially Paid" %}
+                    <td class="table small-regular gray500" style = "width:134px; padding-top:16px; padding-left:16px; padding-bottom:8px;"> <span class="badge rounded-pill bg-warning small-bold">Partially Paid</span> </td>
+                    {% else %}
                     <td class="table small-regular gray500" style = "width:134px; padding-top:16px; padding-left:16px; padding-bottom:8px;"> <span class="badge rounded-pill bg-success small-bold">Fully Paid</span> </td>
-                    <td> <button type = "button" class="btn btn-link small-regular" style = "width:97px; padding-top:12px;"> View DR </a></td>
+                    {% endif %}
+                    <td> <button type = "button" onclick="window.location.href = '{% url 'view_dr' pk=dr.pk %}'" class="btn btn-link small-regular" style = "width:97px; padding-top:12px;"> View DR </a></td>
                     <td> <button type = "button" class="btn btn-link small-regular" style = "width:97px; padding-top:12px;"> Edit DR </a></td>
                     <td class="table small-regular gray800" style = "width:24px;"> </td>
                 </tr>
-                <tr>
+                {% endfor %} 
+                <!-- <tr>
                     <td class="table small-regular gray800" style = "width:24px;"> </td>
                     <td class="table body-semibold gray800" style="width:0px; padding-top:14px; padding-left:16px; padding-right:16px; padding-bottom:16px;" scope="col">
                         <div class="form-check">
@@ -207,7 +209,7 @@
                     <td> <button type = "button" class="btn btn-link small-regular" style = "width:97px; padding-top:4px;"> View DR </a></td>
                     <td> <button type = "button" class="btn btn-link small-regular" style = "width:97px; padding-top:4px;"> Edit DR </a></td>
                     <td class="table small-regular gray800" style = "width:24px;"> </td>
-                </tr>
+                </tr> -->
 
 
             </tbody> 
@@ -215,12 +217,5 @@
         </table>
 
 </div>
-
-
-
-
-
-
-
 
 {% endblock %}

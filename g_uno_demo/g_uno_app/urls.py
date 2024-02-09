@@ -22,8 +22,8 @@ from . import views
 urlpatterns = [ 
     path('', views.dr_home, name = 'dr_home'),
     path('add_dr', views.add_dr, name='add_dr'), 
-    path('add_dr_lar', views.add_dr_lar, name='add_dr_lar'), 
-    path('view_dr', views.view_dr, name='view_dr'), 
+    # path('add_dr_lar', views.add_dr_lar, name='add_dr_lar'), 
+    path('view_dr/<int:pk>/', views.view_dr, name='view_dr'), 
     path('align_test', views.align_test, name='align_test'), 
     path('new_dr', views.new_dr, name='new_dr'), #implement pk 
 ]

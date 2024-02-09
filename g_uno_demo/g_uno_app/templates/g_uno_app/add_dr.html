@@ -3,131 +3,283 @@
 {% load bootstrap_icons %}
 
 {% block content %} 
-<style>
-    .top { 
-        margin: 10px; 
-        display: flex; 
-    }
 
-    h1 { 
-        padding: 10px; 
-    }
-
-    .header1 {
-        display: flex; 
-        justify-content: space-between;
-    }
-
-    .header2 { 
-        padding-top: 20px; 
-    }
-
-    .add_product_btn { 
-        margin-top: 10px; 
-    }
-
-    .bottom {
-        display: flex; 
-        justify-content: end; 
-    }
-
-    .confirm_btn { 
-        margin-left: 20px; 
-        margin-right: 50px;  
-    }
-</style>
-
-<div class="container">
-    <div class="top">
-        <!-- OKAY: When clicked, return to dr_home. -->
-        <a href="{% url 'dr_home' %}" name = "Back">Back</a>
-        <h1>Add a Delivery Receipt</h1> 
+<div style = "display:flex; justify-content: space-between; padding-top:72px; vertical-align: center; padding-left:136px; padding-bottom: 32px; padding-right:136px;">
+    <div style = "padding-top:8px;">
+        <!-- Prue: onclick -->
+        <button type = "button" onclick="goHome()" class = "btn btn-outline-info body-regular" style = "margin-right: 8px; vertical-align: text-top;"><span style = "color: #94a3b8; font-size:16px; padding-right:10px; vertical-align: 0px;"><i class="bi bi-chevron-left" style = "-webkit-text-stroke: 1px;"></i></span>Back</button>
     </div>
-    <!-- Create Delivery Receipt Form -->
-    <form class = "delivery_receipt" action = "{% url 'new_dr' %}" method = "POST">{% csrf_token %}
-        <div class="dr_details">
-            <div class="header1">
-                <h4>Basic DR Details</h5>
-                <!-- AUTOMATICALLY UPDATES based on latest DR No. -->
-                <input type="hidden" name="dr_number" value="{{ c.getDrNumber }}">
-                <h5>DR No. {{ c.formatDrNumber }}</h5>
-            </div>
-            <label for="client_name">Client Name:</label>
-            <input type="text" placeholder="Enter Name">
-            <label for="date_created">Date Created: {{ c.formatDate }}</label>
-            <!-- DROPDOWN -->
-            <label for="terms">Terms:</label>
-            <select name="terms" id="terms">
-                <option value="" selected disabled>Select Terms</option>
-                <option value="90">90</option>
-                <option value="120">120</option>
-            </select>
-            <!-- DROPDOWN -->
-            <br>
-            <label for="client_address">Client Address:</label>
-            <input type="text" placeholder="Enter Address">
-            <label for="client_tin">Client TIN:</label>
-            <input type="text" placeholder="Enter TIN">
-        </div>
-        <div class="product_details">
-            <div class="header2">
-                <h4>Product Details</h4>
-            </div>
-            <label for="quantity">Quantity:</label>
-            <input type="number" placeholder="Qty." name="inp_quantity[]">
-            <!-- REMOVE INPUT: Unit should be automatic based on the product selected -->
-            <!-- <label for="unit">Unit: {{ e.getUnit }} </label> -->
-            <label for="unit">Unit: </label disabled>
-            <input type="text" placeholder="Sheets" disabled>
-            <label for="product">Product:</label>
-            <input type="text" placeholder="Select Product" name = "inp_product[]">
-            <label for="size">Size:</label>
-            <input type="text" placeholder="Select Size" name = "inp_size[]">
-            <!-- REMOVE INPUT: Should be automatically calculated based on the database considering the product and its size -->
-            <!-- <label for="unit_price">Unit Price: {{ e.getUnitPrice }}</label> -->
-            <label for="unit_price">Unit Price:</label>
-            <input type="text" placeholder="P0.00" disabled>
-            <!-- REMOVE INPUT: Should be automatically calculated based on the product of unit price and quantity -->
-            <label for="subtotal">Subtotal:</label>
-            <input type="text" placeholder="P0.00" disabled>
-            <br>
-            <!-- ADD PRODUCT BUTTON: When clicked, append a new product details form / row of another product client will buy. -->
-            <button class="add_product_btn">Add Product</button>
-        </div>
-
-        <div class="product_details">
-            <div class="header2">
-                <h4>Product Details</h4>
-            </div>
-            <label for="quantity">Quantity:</label>
-            <input type="number" placeholder="Qty." name="inp_quantity[]">
-            <!-- REMOVE INPUT: Unit should be automatic based on the product selected -->
-            <!-- <label for="unit">Unit: {{ e.getUnit }} </label> -->
-            <label for="unit">Unit: </label disabled>
-            <input type="text" placeholder="Sheets" disabled>
-            <label for="product">Product:</label>
-            <input type="text" placeholder="Select Product" name = "inp_product[]">
-            <label for="size">Size:</label>
-            <input type="text" placeholder="Select Size" name = "inp_size[]">
-            <!-- REMOVE INPUT: Should be automatically calculated based on the database considering the product and its size -->
-            <!-- <label for="unit_price">Unit Price: {{ e.getUnitPrice }}</label> -->
-            <label for="unit_price">Unit Price:</label>
-            <input type="text" placeholder="P0.00" disabled>
-            <!-- REMOVE INPUT: Should be automatically calculated based on the product of unit price and quantity -->
-            <label for="subtotal">Subtotal:</label>
-            <input type="text" placeholder="P0.00" disabled>
-            <br>
-            <!-- ADD PRODUCT BUTTON: When clicked, append a new product details form / row of another product client will buy. -->
-            <button class="add_product_btn">Add Product</button>
-        </div>
-        <div class="bottom">
-            <!-- Total should be automatically calculated based on the subtotal -->
-            <h5>Total: <span id="total">P0.00</span></h5>
-            <!-- CONFIRM BUTTON: Submit form. Creates DR in database. Redirects user to new_dr page. -->
-            <button class ="confirm_btn" type="submit">Confirm</button>
-        </div>
-    </form>
+    <div class = "h1-semibold gray700">
+        Add a Delivery Receipt
+    </div>
+    <div style = "padding-top:8px;">
+        <button type = "button" class = "btn btn-outline-info disabled body-regular" style = "margin-right: 8px; vertical-align: text-top; opacity: 0%;"><span style = "color: #94a3b8; font-size:16px; padding-right:10px; vertical-align: 0px; opacity: 0%;"><i class="bi bi-chevron-left" style = "-webkit-text-stroke: 1px;"></i></span>Back</button>
     </div>
 </div>
+
+
+<form method="POST" action = "{% url 'new_dr' %}"> {% csrf_token %}
+<div class = "shadow" style = "background-color: white; border-radius: 16px; margin-left:72px; margin-right:72px; margin-bottom:171px">
+    <div style = "padding-left: 64px; padding-right: 64px; padding-top: 64px; padding-bottom:48px;">
+        <div style = "display:flex; justify-content: space-between; padding-bottom:24px;">
+            <div class = "h4-medium gray700" style = "display: flex; justify-content: space-between;">
+                Basic DR Details
+            </div>
+            <div class = "h5-medium" style = "display: flex; justify-content: space-between;">
+                <div class = "gray400">
+                    DR No. <span class = "gray700">{{ c.formatDrNumber }}</span>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div style = "display:flex; justify-content: space-between; padding-bottom:16px;">
+                <div class="form-group required" id="clientnameDiv" style = "width:820px">
+                    <label for="clientname" class = "gray500 justify-content-left control-label body-regular" required="required" style = "padding-bottom: 8px;"> Client Name </label>
+                    <input type="text" id="clientname" name="TEST" class="form-control body-regular gray800" required="required" placeholder="Enter name" style = "color:#6C757D; display:inline;">
+                </div>
+                <div class="form-group" id="datecreated" style = "width:130px;">
+                    <div class = "gray500 justify-content-left body-regular" style = "padding-bottom: 8px;"> Date Created </div>
+                    <div class="lead gray700" id="datecreated" name="datecreated" style = "display:inline;">{{ c.formatDate }}</div>
+                </div>
+                <div class="form-group required" id="terms" style = "width:160px">
+                    <label for="terms" class = "gray500 justify-content-left control-label body-regular" required="required" style = "padding-bottom: 8px;"> Terms </label>
+                    <div class = "dropdown">
+                        <a class = "btn btn-outline-dark" style = "width:160px; display: flex; justify-content: space-between;" href = "#" role = "button" data-bs-toggle="dropdown" aria-expanded="false">Select Terms<i class="bi bi-chevron-down" style = "-webkit-text-stroke: 1px; right:10px"></i></a>
+                        <ul class="dropdown-menu shadow" style = "width:160px;">
+                            <li><a class="dropdown-item body-regular gray600" href="#" onclick="updateTerm(90)">90 days</a></li>
+                            <li><a class="dropdown-item body-regular gray600" href="#" onclick="updateTerm(120)">120 days</a></li>
+                        </ul>
+                        <input type="hidden" name="inputTerms" id="inputTerms"></input>
+                    </div>
+                </div>
+            </div>
+            <div style = "display:flex; justify-content: space-between;">
+                <div class="form-group required" id="clientaddressDiv" style = "width:820px">
+                    <label for="clientaddress" class = "gray500 justify-content-left control-label body-regular" required="required" style = "padding-bottom: 8px;"> Client Address </label>
+                    <input type="text" id="clientaddress" name="clientaddress" class="form-control body-regular gray800" required="required" placeholder="Enter address" style = "display:inline;">
+                </div>
+                <div class="form-group required" id="clienttinDiv" style = "width:315px">
+                    <label for="clienttin" class = "gray500 justify-content-left control-label body-regular" required="required" style = "padding-bottom: 8px;"> Client TIN </label>
+                    <input type="text" id="clienttin" name="clienttin" class="form-control body-regular gray800" required="required" placeholder="Enter TIN Number" style = "display:inline;">
+                </div>
+            </div>
+            
+        </div>
+    </div> 
+    <div style = "padding-left: 64px; padding-right: 64px; padding-bottom: 64px;">
+        <div class = "h4-medium gray700" style = "display: flex; justify-content: left; padding-bottom: 24px;">
+            Product Details
+        </div>
+        <div style = "display:flex; justify-content: space-between;padding-right:44px;">
+            <div class="form-group required" id="quantity_div" style = "width:103px">
+                <label for="quantity" class = "gray500 justify-content-left control-label body-regular" required="required" style = "padding-bottom: 16px;"> Quantity </label>
+                <input type="text" id="quantity" name="quantity" class="form-control body-regular gray800" required="required" placeholder="Qty" style = "display:inline;">
+            </div>
+            <div class="form-group" id="unit" style = "width:68px;">
+                <div class = "gray500 justify-content-left body-regular" style = "padding-bottom: 22px;"> Unit </div>
+                <div class="lead gray700" id="unit" name="unit" style = "display:inline;">Sheets</div>
+            </div>
+            <div class="form-group required" id="productchoice" style = "width:352px;">
+                <label for="productchoice" class = "gray500 justify-content-left control-label body-regular" required="required" style = "padding-bottom: 16px;"> Product </label>
+                <input type="text" class="form-control body-regular gray800" list="datalistOptions" id="productchoice" name="productchoice" placeholder="Type to search product..." style = "color:#6C757D; display:inline;" required>
+                <datalist id="datalistOptions">
+                    <option value="Vinyl Sticker Indoor">
+                    <option value="Vinyl Sticker Outdoor">
+                    <option value="Matte Sticker Indoor">
+                    <option value="Matte Sticker Outdoor">
+                </datalist>
+            </div>
+            <div class="form-group required" id="sizechoice" style = "width:200px">
+                <label for="sizechoice" class = "gray500 justify-content-left control-label body-regular" required="required" style = "padding-bottom: 16px;"> Size </label>
+                <div class = "dropdown">
+                    <a class = "btn btn-outline-dark" style = "width:200px; display: flex; justify-content: space-between;" href = "#" role = "button" data-bs-toggle="dropdown" aria-expanded="false">Select Size<i class="bi bi-chevron-down" style = "-webkit-text-stroke: 1px; right:10px"></i></a>
+                    <ul class="dropdown-menu shadow" style = "width:200px;" name="size">
+                        <li><a class="dropdown-item body-regular gray600" href="#" onclick="updateSize('50&quot; by 90&quot;', 1)">50" by 90"</a></li>
+                        <li><a class="dropdown-item body-regular gray600" href="#" onclick="updateSize('50&quot; by 60&quot;', 1)">50" by 60"</a></li>
+                        <li><a class="dropdown-item body-regular gray600" href="#" onclick="updateSize('50&quot; by 30&quot;', 1)">50" by 30"</a></li>
+                    </ul>
+                    <input type="hidden" name="size" id="size1"></input>
+                </div>
+            
+            </div>
+            <div class="form-group text-end" id="unitprice" style = "width:131px;">
+                <div class = "gray500 justify-content-left body-regular" style = "padding-bottom: 22px;"> Unit Price </div>
+                <div class="lead gray700" id="unitprice" name="unitprice" style = "display:inline;">₱ 850.00</div>
+            </div>
+            <div class="form-group text-end" id="unitprice" style = "width:177px;">
+                <div class = "gray500 justify-content-left body-regular" style = "padding-bottom: 22px; padding-right:44px;"> Subtotal</div>
+                <div>
+                    <div class="lead gray700" id="unitprice" name="unitprice" style = "display:inline;">₱ 2,550.00</div>
+                    <span style = "font-size:16px; padding-left: 24px; vertical-align: 0px;"><i class="bi bi-trash-fill" style = "-webkit-text-stroke: 0px;color: white;"></i></span>
+                </div>
+            </div>
+            
+        </div>
+        
+
+        <div id = "newProduct">
+
+        </div>
+        
+        <div style = "padding-top:24px;">
+            <button type = "button" onclick = "addProduct()" class = "btn btn-link body-regular"><span style = "font-size:16px; padding-right:10px; vertical-align: 0px;"><i class="bi bi-plus-lg" style = "-webkit-text-stroke: 1px;"></i></span>Add Product</button>
+            
+        </div>
+        
+        <script>
+            // Prue: Function for the back button
+            function goHome() {
+                window.location.href = '/';
+            }
+            
+            // JavaScript function to add a new field
+            let fieldCount = 1;
+            function updateTerm(value) {
+                document.getElementById('inputTerms').value = value;
+            }
+
+            function updateSize(value, row) {
+                document.getElementById('size' + row).value = value;
+            }
+
+
+            function addProduct() {
+                fieldCount++;
+                console.log(fieldCount);
+                // Get the container element where new fields will be added
+                const container = document.getElementById('newProduct');
+          
+                // Create a new field set div
+                const newField = document.createElement('div');
+          
+                // Define the inner HTML for the new field set
+                newField.innerHTML = `
+                <div class = "prod" style = "display:flex; justify-content: space-between; padding-top:16px">
+                    <div class="form-group required" id="quantity_div" style = "width:103px">
+                        <input type="text" id="quantity" name="quantity" class="form-control body-regular gray800" required="required" placeholder="Qty" style = "display:inline;">
+                    </div>
+                    <div class="form-group" id="unit" style = "width:68px; padding-top: 4px;">
+                        <div class="lead gray700" id="unit" name="unit" style = "display:inline;">Sheets</div>
+                    </div>
+                    <div class="form-group required" id="productchoice" style = "width:352px;">
+                        <input type="text" class="form-control body-regular gray800" list="datalistOptions" id="exampleDataList" name="productchoice" placeholder="Type to search product..." style = "color:#6C757D; display:inline;">
+                        <datalist id="datalistOptions">
+                            <option value="Vinyl Sticker Indoor">
+                            <option value="Vinyl Sticker Outdoor">
+                            <option value="Matte Sticker Indoor">
+                            <option value="Matte Sticker Outdoor">
+                        </datalist>
+                    </div>
+                    <div class="form-group required" id="sizechoice" style = "width:200px">
+                        <div class = "dropdown size">
+                            <a class = "btn btn-outline-dark" style = "width:200px; display: flex; justify-content: space-between;" href = "#" role = "button" data-bs-toggle="dropdown" aria-expanded="false">Select Size<i class="bi bi-chevron-down" style = "-webkit-text-stroke: 1px; right:10px"></i></a>
+                            <ul class="dropdown-menu shadow" style = "width:200px;">
+                                <li><a class="dropdown-item body-regular gray600" href="#" onclick="updateSize('50&quot; by 90&quot;', ${fieldCount})">50" by 90"</a></li>
+                                <li><a class="dropdown-item body-regular gray600" href="#" onclick="updateSize('50&quot; by 60&quot;', ${fieldCount})">50" by 60"</a></li>
+                                <li><a class="dropdown-item body-regular gray600" href="#" onclick="updateSize('50&quot; by 30&quot;', ${fieldCount})">50" by 30"</a></li>
+                            </ul>
+                            <input type="hidden" name="size" id="size${fieldCount}"></input>
+                        </div>
+                    </div>
+                    <div class="form-group text-end" id="unitprice" style = "width:131px;padding-top: 4px;">
+                        <div class="lead gray700" id="unitprice" name="unitprice" style = "display:inline;">₱ 850.00</div>
+                    </div>
+                    <div class="form-group text-end" id="unitprice${fieldCount}" style = "width:177px;padding-top: 4px;">
+                        <div class="lead gray700" id="unitprice" name="unitprice" style = "display:inline; padding-right:0px;">₱ 2,550.00</div>
+                        <a onclick = "deleteProduct(event)" style = "padding-top:6px;font-size:16px; padding-left: 24px; vertical-align: 0px;"><i class="bi bi-trash-fill red600" style = "-webkit-text-stroke: 0px;"></i></a>
+                    </div>
+                </div>
+              `;
+          
+                // Append the new field set div to the container
+                container.appendChild(newField);
+            }
+          
+            
+            
+            document.addEventListener('DOMContentLoaded', function () {
+                // Add click event listener to the document for event delegation
+                document.addEventListener('click', function (event) {
+                    const clickedElement = event.target;
+
+                    // Check if the clicked element is a dropdown item
+                    if (clickedElement.classList.contains('dropdown-item')) {
+                        event.preventDefault();
+
+                        // Get the closest dropdown parent
+                        const dropdown = clickedElement.closest('.dropdown');
+
+                        if (dropdown) {
+                            // Get the button inside the dropdown
+                            const dropdownButton = dropdown.querySelector('.btn');
+
+                            // Set the title of the dropdown button to the text of the clicked item
+                            dropdownButton.innerHTML = `${clickedElement.innerText} <i class="bi bi-chevron-down" style = "-webkit-text-stroke: 1px; right:10px"></i>`;
+                        }
+
+                    }
+                    
+                });
+            });
+            
+
+            // JavaScript function to delete a field
+            function deleteProduct(event) {
+                
+                // Prevent the default behavior of the anchor tag
+                event.preventDefault();
+
+                // Get the parent element (the div containing the product) using closest
+                const productDiv = event.target.closest('.prod');
+
+                // Check if a product div is found
+                if (productDiv) {
+                    // Remove the product div from its parent container
+                    productDiv.remove();
+                    fieldCount--;
+                } else {
+                    console.error('No product div found.');
+                }
+                // Stop event propagation to prevent it from reaching other click event listeners
+                event.stopPropagation();
+                
+            }
+            
+
+            {% comment %} function submitForm(event) {
+                event.preventDefault();
+                var formInfo = $('#drForm').serialize();
+                $.ajax({
+                    url: 'new_dr',
+                    type: 'POST', 
+                    data: {
+                        csrfmiddlewaretoken: '{{ csrf_token }}',
+                        formInfo,
+                    },
+                    success: function(response) {
+                        console.log("TEST");
+                        window.location.href = '/new_dr';
+                    },
+                    error: function(error) {
+                        console.error(error)
+                    }
+                });
+            } {% endcomment %}
+
+
+        </script>    
+    </div>
+    
+</div>
+
+<div class = "shadow" style = "background-color: white; width:100%; height:86px; position:fixed; bottom:0%">
+    <div style = "display:flex; justify-content: right;">
+        <div class = "h5-semibold gray900" style = "padding-right:36px; padding-top:31px"><span class = "h6-medium gray500" style = "padding-right:8px;">TOTAL:</span>₱ 0.00</div>
+        <button type="submit" class = "btn btn-primary body-semibold" style = "width: 153px; margin-top:24px; margin-right:86px;">Confirm</button>
+        
+    </div>
+</div>
+</form>
+
 
 {% endblock %}

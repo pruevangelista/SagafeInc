@@ -4,35 +4,178 @@
 
 {% block content %} 
 
-<div style = "padding-top:64px; padding-left:122px">
-    <!-- Prue: onclick -->
+<div style = "padding-top:64px; padding-left:118px">
     <button type = "button" onclick="goHome()" class = "btn btn-outline-info body-regular" style = "margin-right: 8px; vertical-align: text-top;"><span style = "color: #94a3b8; font-size:16px; padding-right:10px; vertical-align: 0px;"><i class="bi bi-chevron-left" style = "-webkit-text-stroke: 1px;"></i></span>Back</button>
 </div>
-<div style = "padding-top:16px; padding-left:131px">
-    <div style = "display: flex; gap:24px">
-        <div class = "h2-medium gray700">
-            Delivery Receipt
+<div style = "padding-top:16px; padding-left:127px; padding-right:127px;">
+    <div style = "display: flex; justify-content: space-between;  padding-bottom:32px;">
+        <div style = "display: flex; gap:24px; justify-content: space-between;">
+            <div class = "h2-medium gray700 display:inline;">
+                Delivery Receipt
+            </div>
+            <div class = "dropdown">
+                <a class="btn btn-outline-danger body-semibold rounded-pill" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown"  aria-expanded="false" style = " display: flex; justify-content: space-between;min-width:120px;">{{ dr.getPaymentStatus }}<span><i class="bi bi-caret-down-fill" style = "-webkit-text-stroke: 0px;"></i></span></a>
+                <ul class="dropdown-menu shadow" style = "width:352px;">
+                    <li><a class="dropdown-item body-regular gray600" href="#">Not Paid</a></li>
+                    <li><a class="dropdown-item body-regular gray600" href="#">Partially Paid</a></li>
+                    <li><a class="dropdown-item body-regular gray600" href="#">Fully Paid</a></li>
+                </ul>
+            </div>
         </div>
-        
-        <div class = "dropdown product">
-            <a class = "btn btn-outline-dark" style = "width:352px; display: flex; justify-content: space-between;" href = "#" id = "button${fieldCount}" role = "button" data-bs-toggle="dropdown" aria-expanded="false">Select Product<i class="bi bi-chevron-down" style = "-webkit-text-stroke: 1px; right:10px"></i></a>
-            <ul class="dropdown-menu shadow" style = "width:352px;" aria-labelledby="dropdown_coins">
-                <li style = "padding-left: 8px; padding-right: 8px; padding-bottom: 8px;"><input type="text" id="productchoicesearch" name="productchoicesearch" class="form-control body-regular gray800" required="required" placeholder="Search Product" style = "color:#6C757D; display:inline;"></li>
-                <li><a class="dropdown-item body-regular gray600" href="#">Vinyl Sticker Indoor</a></li>
-                <li><a class="dropdown-item body-regular gray600" href="#">Vinyl Sticker Outdoor</a></li>
-                <li><a class="dropdown-item body-regular gray600" href="#">Matte Sticker Indoor</a></li>
-                {% for dr in drs %}
-                <li><a class="dropdown-item body-regular gray600" href="#">{{dr}}</a></li>
-                {% endfor %}
-            </ul>
+        <div style = "display: flex; gap:8px; justify-content: space-between;">
+            <button type = "button" class = "btn btn-secondary body-semibold" style = "width:auto;"><span style = "font-size:16px; padding-right:8px;"><i class="bi bi-pen-fill" style = "-webkit-text-stroke: 0px;"></i></span>Edit DR</button>
+            <button type = "button" class = "btn btn-secondary body-semibold" style = "width:auto;"><span style = "font-size:16px; padding-right:8px;"><i class="bi bi-printer-fill" style = "-webkit-text-stroke: 0px;"></i></span>View and Print Sales Invoice</button>
+            <button type = "button" class = "btn btn-secondary body-semibold" style = "width:auto;"><span style = "font-size:16px; padding-right:8px;"><i class="bi bi-printer-fill" style = "-webkit-text-stroke: 0px;"></i></span>Print DR</button>
         </div>
-        
-
     </div>
+</div>
+
+<div class = "shadow" style = "background-color: white; border-radius: 16px; margin-left:127px; margin-right:127px; margin-bottom:64px; padding-top:32px; padding-left:32px; padding-right:32px; padding-bottom:32px;">
+    <div style = "display:flex; justify-content: space-between">
+        <div style = "width:818px; display:inline">
+            <div class = "gray400 justify-content-left control-label body-regular" required="required" style = "padding-bottom: 0px;"> Client Name </div>
+            <div class="body-regular gray700" id="datecreated" name="datecreated" style = "display:inline;">{{ dr.client.getClientName }}</div>
+        </div>
+        <div style = "display:flex; width:236px; gap:24px; justify-content: space-between;">
+            <div style = "width:118px; display:inline">
+                <div class = "gray400 justify-content-left control-label body-regular" required="required" style = "padding-bottom: 0px;">Date</div>
+                <div class="body-regular gray700" id="datecreated" name="datecreated" style = "display:inline;">{{ dr.formatDate }}</div>
+            </div>
+            <div style = "width:118px; display:inline">
+                <div class = "gray400 justify-content-left control-label body-regular" required="required" style = "padding-bottom: 0px;">DR No.</div>
+                <div class="body-bold gray700" id="datecreated" name="datecreated" style = "display:inline;">{{ dr.formatDrNumber }}</div>
+            </div>
+        </div>
+        
+    </div>
+    <div style = "display:flex; justify-content: space-between; padding-top:16px;">
+        <div style = "width:818px; display:inline">
+            <div class = "gray400 justify-content-left control-label body-regular" required="required" style = "padding-bottom: 0px;">Client Address</div>
+            <div class="body-regular gray700" id="datecreated" name="datecreated" style = "display:inline;">{{ dr.client.getClientAddress }}</div>
+        </div>
+        <div style = "display:flex; width:236px;justify-content: space-between;">
+            <div style = "width:236px; display:inline">
+                <div class = "gray400 justify-content-left control-label body-regular" required="required" style = "padding-bottom: 0px;">Client TIN Number</div>
+                <div class="body-regular gray700" id="datecreated" name="datecreated" style = "display:inline;">{{ dr.client.formatClientTIN }}</div>
+            </div>
+            
+        </div>
+        
+    </div>
+    <div style = "padding-top:36px;">
+        <table table class="table table-borderless" style = "column-gap: 32px;">
+            <thead>
+                <tr>
+                    <th class = "body-semibold gray700" style = "text-align:left; max-width: 72px;">Quantity</th>
+                    <th class = "body-semibold gray700" style = "text-align:left; max-width: 70px;">Unit</th>
+                    <th class = "body-semibold gray700" style = "text-align:left; min-width: 324px;">Product</th>
+                    <th class = "body-semibold gray700" style = "text-align:left; min-width: 200px;">Size</th>
+                    <th class = "body-semibold gray700" style = "text-align:right; max-width: 157px;">Unit Price</th>
+                    <th class = "body-semibold gray700" style = "text-align:right; max-width: 129px;">Subtotal</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                {% for qp in qps %}
+                <tr>
+                    <td class = "body-regular gray500" style = "text-align:right; max-width: 72px;padding-top:2px;">{{ qp.getQuantity }}</th>
+                    <td class = "body-regular gray500" style = "text-align:left; max-width: 70px;padding-top:2px;">{{ qp.product.getUnit }}</th>
+                    <td class = "body-regular gray500" style = "text-align:left; min-width: 324px;padding-top:2px;">{{ qp.product.getProductName }}</th>
+                    <td class = "body-regular gray500" style = "text-align:left; min-width: 200px;padding-top:2px;">{{ qp.product.getSize }} </th>
+                    <td class = "body-regular gray500" style = "text-align:right; max-width: 157px;padding-top:2px;">₱ {{ qp.product.formatUnitPrice }}</th>
+                    <td class = "body-regular gray500" style = "text-align:right; max-width: 129px;padding-top:2px;">₱ {{ qp.formatSubtotal }}</th>
+                </tr>
+                {% endfor %}
+                <!-- <tr>
+                    <td class = "body-regular gray500" style = "text-align:right; max-width: 72px;padding-top:2px;">3</th>
+                    <td class = "body-regular gray500" style = "text-align:left; max-width: 70px;padding-top:2px;">Sheets</th>
+                    <td class = "body-regular gray500" style = "text-align:left; min-width: 324px;padding-top:2px;">PP Matte Sticker Indoor</th>
+                    <td class = "body-regular gray500" style = "text-align:left; min-width: 200px;padding-top:2px;">50" x 60"</th>
+                    <td class = "body-regular gray500" style = "text-align:right; max-width: 157px;padding-top:2px;">₱ 1,050.00</th>
+                    <td class = "body-regular gray500" style = "text-align:right; max-width: 129px;padding-top:2px;">₱ 3,150.00</th>
+                </tr>
+                <tr>
+                    <td class = "body-regular gray500" style = "text-align:right; max-width: 72px;padding-top:2px;">4</th>
+                    <td class = "body-regular gray500" style = "text-align:left; max-width: 70px;padding-top:2px;">Pieces</th>
+                    <td class = "body-regular gray500" style = "text-align:left; min-width: 324px;padding-top:2px;">Double-Sided Foamtape</th>
+                    <td class = "body-regular gray500" style = "text-align:left; min-width: 200px;padding-top:2px;">30m</th>
+                    <td class = "body-regular gray500" style = "text-align:right; max-width: 157px;padding-top:2px;">₱ 209.10</th>
+                    <td class = "body-regular gray500" style = "text-align:right; max-width: 129px;padding-top:2px;">₱ 836.40</th>
+                </tr>
+                <tr>
+                    <td class = "body-regular gray500" style = "text-align:right; max-width: 72px;padding-top:2px;">
+        
+                    </th>
+                    <td class = "body-regular gray500" style = "text-align:left; max-width: 70px;padding-top:2px;">Sheets</th>
+                    <td class = "body-regular gray500" style = "text-align:left; min-width: 324px;padding-top:2px;">Tarpaulin</th>
+                    <td class = "body-regular gray500" style = "text-align:left; min-width: 200px;padding-top:2px;">600" x 100"</th>
+                    <td class = "body-regular gray500" style = "text-align:right; max-width: 157px;padding-top:2px;">₱ 4,500.00</th>
+                    <td class = "body-regular gray500" style = "text-align:right; max-width: 129px;padding-top:2px;">₱ 9,000.00</th>
+                </tr> -->
+            </tbody>
+
+        </table>
+        <div style = "margin-top:12px; margin-bottom:12px; display:flex; justify-content: end;">
+            <hr class = "gray400" style = "opacity:100%; width:144px; border-width:2px; margin-top: 0; margin-bottom: 0;">
+        </div>
+        <div style = "display: flex; justify-content: end;">
+            <div class = "h4-semibold violet800" style = "text-align: right;"><span class = "body-regular gray500" style = "padding-right:70px; vertical-align: 2.5px;">TOTAL</span>₱ {{ dr.getDrAmtWoVat }}</div>
+        </div>
+    </div>
+    <div>
+        <div class = "body-regular gray400" style = "padding-top:12px; text-align: left;">Payment Particulars</div>
+        <div class = "body-regular gray700" style = "padding-top:12px; text-align: left;">Terms: {{ dr.getTerms }} days</div>
+        <div class = "body-regular gray700" style = "padding-top:12px; text-align: left;">Please pay on or before <span class = "red500 body-semibold">{{ dr.getDueDate }}</span></div>
+    </div>
+    
+</div>
+
+<div style = "margin-left:127px; margin-right:127px;">
+    <div style = "display:flex; justify-content: space-between; padding-bottom:32px;">
+        <div class = "h3-medium" style = "vertical-align: 2px;">Payments</div>
+        <button type = "button" class = "btn btn-primary body-semibold"><span style = "color: #c4b5fd; font-size:16px; padding-right:10px; vertical-align: 0px;"><i class="bi bi-plus-lg" style = "-webkit-text-stroke: 1px;"></i></span>Add Payment</button>
+    </div>
+    <div class = "shadow" style = "background-color: white; border-radius: 16px; padding-top:32px; padding-left:32px; padding-right:32px; padding-bottom:32px;">
+        <table class="table table-borderless" style = "table-layout: fixed;">
+            <thead>
+                <tr>
+                    <th class = "body-semibold gray700" style = "text-align:left; max-width: 134px; padding-left:16px; padding-top:16px; padding-bottom:16px; border-bottom: 1px solid #e2e8f0;">Status</th>
+                    <th class = "body-semibold gray700" style = "text-align:left; max-width: 164px; padding-left:16px; padding-top:16px; padding-bottom:16px; border-bottom: 1px solid #e2e8f0;">Date of Check</th>
+                    <th class = "body-semibold gray700" style = "text-align:left; max-width: 137px; padding-left:16px; padding-top:16px; padding-bottom:16px; border-bottom: 1px solid #e2e8f0;">Bank</th>
+                    <th class = "body-semibold gray700" style = "text-align:left; max-width: 260px; padding-left:16px; padding-top:16px; padding-bottom:16px; border-bottom: 1px solid #e2e8f0;">Check Number</th>
+                    <th class = "body-semibold gray700" style = "text-align:left; min-width: 273px; padding-left:16px; padding-top:16px; padding-bottom:16px; border-bottom: 1px solid #e2e8f0;">Replaced By</th>
+                    <th class = "body-semibold gray700" style = "text-align:right; max-width: 160px; padding-left:16px; padding-top:16px; padding-bottom:16px; border-bottom: 1px solid #e2e8f0;">Amount</th>
+                    <th class = "body-semibold gray700" style = "text-align:right; width: 81px; padding-left:16px; padding-top:16px; padding-bottom:16px; border-bottom: 1px solid #e2e8f0;"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style = "text-align:left; max-width: 134px; padding-left:16px; padding-top:14px; padding-bottom:14px;">
+                        <div class = "dropdown">
+                            <a class="btn btn-outline-success small-bold rounded-pill" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">Valid<i class="bi bi-caret-down-fill" style = "-webkit-text-stroke: 0px; padding-left:12px;"></i></a>
+                            <ul class="dropdown-menu shadow" style = "width:100px;">
+                                <li><a class="dropdown-item body-regular gray600" href="#">Valid</a></li>
+                                <li><a class="dropdown-item body-regular gray600" href="#">Invalid</a></li>
+                            </ul>
+                        </div>
+                    </td>
+                    <td class = "body-regular gray500" style = "text-align:left; max-width: 70px; padding-left:16px; padding-top:18px; padding-bottom:16px;">Pieces</td>
+                    <td class = "body-regular gray500" style = "text-align:left; min-width: 324px; padding-left:16px; padding-top:18px; padding-bottom:16px;">BDO</td>
+                    <td class = "body-regular gray500" style = "text-align:left; min-width: 200px; padding-left:16px; padding-top:18px; padding-bottom:16px;">30m</td>
+                    <td class = "body-regular gray500" style = "text-align:left; max-width: 157px; padding-left:16px; padding-top:18px; padding-bottom:16px;">₱ 209.10</td>
+                    <td class = "body-regular gray500" style = "text-align:right; max-width: 129px; padding-left:16px; padding-top:18px; padding-bottom:16px;">₱ 836.40</td>
+                    <td> <button type = "button" class="btn btn-link small-regular" style = "width: 81px; padding-top:12px;">Edit</a></td>
+
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
 </div>
 
 
 <script>
+
     // Prue: Function for the back button
     function goHome() {
         window.location.href = '/';
@@ -55,7 +198,7 @@
                     const dropdownButton = dropdown.querySelector('.btn');
 
                     // Set the title of the dropdown button to the text of the clicked item
-                    dropdownButton.innerHTML = `${clickedElement.innerText} <i class="bi bi-chevron-down" style = "-webkit-text-stroke: 1px; right:10px"></i>`;
+                    dropdownButton.innerHTML = `${clickedElement.innerText} <i class="bi bi-caret-down-fill" style = "-webkit-text-stroke: 0px; padding-left:8px"></i>`;
                 
                     // make it so if clickedElement.innerText == Not Paid then change the innerHTML to the right button format
                 }

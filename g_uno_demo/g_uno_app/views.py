@@ -12,7 +12,11 @@ def align_test(request):
     return render(request, 'g_uno_app/align_test.html')
 
 def dr_home(request):
-    return render(request, 'g_uno_app/dr_home.html')
+    deliveryReceipts = DeliveryReceipt.objects.all()
+    context = {
+        'drs': deliveryReceipts,
+    }
+    return render(request, 'g_uno_app/dr_home.html', context)
 
 def new_dr(request):
     if(request.method == "POST"):
@@ -65,13 +69,12 @@ def new_dr(request):
             'd': client_instance,
         }
 
-        # return render(request, 'g_uno_app/new_dr.html', context) #implement pk 
-        return redirect('view_dr')
+        return redirect('view_dr', pk=dr_instance.pk)
     else:
         print("AAAAAwdasdawdA")
-        return render(request, 'g_uno_app/new_dr.html') #implement pk 
+        return render(request, 'g_uno_app/new_dr.html') 
 
-def add_dr_lar(request):
+def add_dr(request):
     # Checks if the latest DR instance exists and retrieves its dr_number
     if DeliveryReceipt.objects.exists(): 
         latest_DRinstance = DeliveryReceipt.objects.latest('dr_number')
@@ -88,13 +91,15 @@ def add_dr_lar(request):
         #'d': client_instance, (for suggested client_name inputs)
         #'e': product_instance, (for suggested product_name inputs)
     }
-    return render(request, 'g_uno_app/add_dr_lar.html', context)
+    return render(request, 'g_uno_app/add_dr.html', context)
 
-def view_dr(request):
-    deliveryReceipts = DeliveryReceipt.objects.all()
+def view_dr(request, pk):
+    dr = get_object_or_404(DeliveryReceipt, pk=pk)
+    qps = QuantityOrdered.objects.filter(dr=dr)
     context = {
-        'drs': deliveryReceipts,
+        'qps': qps,
+        'dr': dr
     }
-    for i in deliveryReceipts:
-        print(i.getDrNumber())
+    # for i in deliveryReceipts:
+    #     print(i.getDrNumber())
     return render(request, 'g_uno_app/view_dr.html', context)

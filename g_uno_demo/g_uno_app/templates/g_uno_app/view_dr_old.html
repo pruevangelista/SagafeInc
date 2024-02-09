@@ -1,0 +1,70 @@
+{% extends 'g_uno_app/base.html' %}
+{% load static %}
+{% load bootstrap_icons %}
+
+{% block content %} 
+
+<div style = "padding-top:64px; padding-left:122px">
+    <!-- Prue: onclick -->
+    <button type = "button" onclick="goHome()" class = "btn btn-outline-info body-regular" style = "margin-right: 8px; vertical-align: text-top;"><span style = "color: #94a3b8; font-size:16px; padding-right:10px; vertical-align: 0px;"><i class="bi bi-chevron-left" style = "-webkit-text-stroke: 1px;"></i></span>Back</button>
+</div>
+<div style = "padding-top:16px; padding-left:131px">
+    <div style = "display: flex; gap:24px">
+        <div class = "h2-medium gray700">
+            Delivery Receipt
+        </div>
+        
+        <div class = "dropdown product">
+            <a class = "btn btn-outline-dark" style = "width:352px; display: flex; justify-content: space-between;" href = "#" id = "button${fieldCount}" role = "button" data-bs-toggle="dropdown" aria-expanded="false">Select Product<i class="bi bi-chevron-down" style = "-webkit-text-stroke: 1px; right:10px"></i></a>
+            <ul class="dropdown-menu shadow" style = "width:352px;" aria-labelledby="dropdown_coins">
+                <li style = "padding-left: 8px; padding-right: 8px; padding-bottom: 8px;"><input type="text" id="productchoicesearch" name="productchoicesearch" class="form-control body-regular gray800" required="required" placeholder="Search Product" style = "color:#6C757D; display:inline;"></li>
+                <li><a class="dropdown-item body-regular gray600" href="#">Vinyl Sticker Indoor</a></li>
+                <li><a class="dropdown-item body-regular gray600" href="#">Vinyl Sticker Outdoor</a></li>
+                <li><a class="dropdown-item body-regular gray600" href="#">Matte Sticker Indoor</a></li>
+                {% for dr in drs %}
+                <li><a class="dropdown-item body-regular gray600" href="#">{{dr}}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+        
+
+    </div>
+</div>
+
+
+<script>
+    // Prue: Function for the back button
+    function goHome() {
+        window.location.href = '/';
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        // Add click event listener to the document for event delegation
+        document.addEventListener('click', function (event) {
+            const clickedElement = event.target;
+
+            // Check if the clicked element is a dropdown item
+            if (clickedElement.classList.contains('dropdown-item')) {
+                event.preventDefault();
+
+                // Get the closest dropdown parent
+                const dropdown = clickedElement.closest('.dropdown');
+
+                if (dropdown) {
+                    // Get the button inside the dropdown
+                    const dropdownButton = dropdown.querySelector('.btn');
+
+                    // Set the title of the dropdown button to the text of the clicked item
+                    dropdownButton.innerHTML = `${clickedElement.innerText} <i class="bi bi-chevron-down" style = "-webkit-text-stroke: 1px; right:10px"></i>`;
+                
+                    // make it so if clickedElement.innerText == Not Paid then change the innerHTML to the right button format
+                }
+
+            }
+            
+        });
+    });
+</script>
+
+
+{% endblock %}
