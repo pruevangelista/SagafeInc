@@ -1032,3 +1032,30 @@ padding: 20px;
 
 }
 
+.btn-outline-danger {
+   background-color: #fee2e2 !important;
+   color: #b91c1c !important;
+   border-color: transparent !important;
+   
+}
+
+.btn-outline-success {
+   background-color: #dcfce7 !important;
+   color: #15803d !important;
+   border-color: transparent !important;
+   
+}
+.btn-outline-warning {
+   background-color: #fef3c7 !important;
+   color: #b45309 !important;
+   border-color: transparent !important;
+   
+}
+
+.table-underline{
+   border-bottom: 1px solid #e2e8f0;
+}
+
+td {
+   word-wrap: break-word;
+}
