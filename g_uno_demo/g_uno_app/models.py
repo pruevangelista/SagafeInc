@@ -76,9 +76,10 @@ class DeliveryReceipt(models.Model):
     dr_number = models.AutoField(primary_key=True)
     dr_date = models.DateField(null=False, default=date.today)
     dr_due_date = models.DateField(null=False, default=date.today)
+    dr_vat = models.DecimalField(max_digits=8, decimal_places=2, null=False, default=0)
 
     #ENUM: DR Terms
-    terms = [
+    terms = [ 
         ("90", "90"),
         ("120", "120")
     ]
