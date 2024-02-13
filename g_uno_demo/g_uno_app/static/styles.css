@@ -1,20 +1,9 @@
-@import url('https://fonts.googleapis.com/css?family=Poppins');
-
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap');
 
 .form-group.required .control-label:after { 
    content:"*";
    color:red;
-}
-
-/* Buttons */
-
-.btn-primary{
-
-   color:#FFFFFF; 
-   background-color:#004FEA; 
-   font-family: 'Satoshi-Bold'; 
-   font-size: 16px;
-
 }
 
 /* Color Styles */
@@ -324,7 +313,7 @@
 
 .h1-medium {
 
-   font-family:'Poppins-Medium';
+   font-family:'Poppins';
    font-size: 40px;
    line-height: 120%;
    letter-spacing: 0;
@@ -333,46 +322,51 @@
 
 .h2-medium {
 
-   font-family:'Poppins-Medium';
+   font-family:'Poppins';
    font-size: 32px;
    line-height: 120%;
    letter-spacing: 0;
+   font-weight:500;
 
 }
 
 .h3-medium {
 
-   font-family:'Poppins-Medium';
+   font-family:'Poppins';
    font-size: 28px;
    line-height: 120%;
    letter-spacing: 0;
+   font-weight:500;
 
 }
 
 .h4-medium {
 
-   font-family:'Poppins-Medium';
+   font-family:'Poppins';
    font-size: 24px;
    line-height: 120%;
    letter-spacing: 0;
+   font-weight:500;
 
 }
 
 .h5-medium {
 
-   font-family:'Poppins-Medium';
+   font-family:'Poppins';
    font-size: 20px;
    line-height: 120%;
    letter-spacing: 0;
+   font-weight:500;
 
 }
 
 .h6-medium {
 
-   font-family:'Poppins-Medium';
+   font-family:'Poppins';
    font-size: 16px;
    line-height: 120%;
    letter-spacing: 0;
+   font-weight:500;
 
 }
 
@@ -423,7 +417,7 @@
 
 .h6-bold {
 
-   font-family:'Poppins-Bold';
+   font-family:'Poppins';
    font-size: 16px;
    line-height: 120%;
    letter-spacing: 0;
@@ -432,55 +426,61 @@
 
 .h1-semibold {
 
-   font-family:'Poppins-SemiBold';
+   font-family:'Poppins';
    font-size: 40px;
    line-height: 150%;
    letter-spacing: 0;
+   font-weight:600;
 
 }
 
 .h2-semibold {
 
-   font-family:'Poppins-SemiBold';
+   font-family:'Poppins';
    font-size: 32px;
    line-height: 120%;
    letter-spacing: 0;
+   font-weight:600;
 
 }
 
 .h3-semibold {
 
-   font-family:'Poppins-SemiBold';
+   font-family:'Poppins';
    font-size: 28px;
    line-height: 120%;
    letter-spacing: 0;
+   font-weight:600;
 
 }
 
 .h4-semibold {
 
-   font-family:'Poppins-SemiBold';
+   font-family:'Poppins';
    font-size: 24px;
    line-height: 120%;
    letter-spacing: 0;
+   font-weight:600;
 
 }
 
 .h5-semibold {
 
-   font-family:'Poppins-SemiBold';
+   font-family:'Poppins';
    font-size: 20px;
    line-height: 120%;
    letter-spacing: 0;
+   font-weight:600;
 
 }
 
 .h6-semibold {
 
-   font-family:'Poppins-SemiBold';
+   font-family:'Poppins';
    font-size: 16px;
    line-height: 120%;
    letter-spacing: 0;
+   font-weight:600;
 
 }
 
@@ -515,10 +515,11 @@
 
 .body-semibold {
 
-   font-family:'Poppins-SemiBold';
+   font-family:'Poppins';
    font-size: 16px;
    line-height: 150%;
    letter-spacing: 0;
+   font-weight:600;
 
 }
 
@@ -582,10 +583,12 @@
 
 .small-semibold {
 
-   font-family:'Poppins-SemiBold';
+   font-family:'Poppins';
    font-size: 14px;
    line-height: 150%;
    letter-spacing: 0;
+   font-weight:600;
+   
 }
 
 .small-bold {
@@ -648,21 +651,23 @@
 
 li.nav-item{
 
-   font-family:'Poppins-Medium';
+   font-family:'Poppins';
    font-size: 20px;
    letter-spacing: 0;
    color:#64748b;
    text-decoration: none;
+   font-weight:500;
 }
 
 li.active{
 
-   font-family:'Poppins-Semibold';
+   font-family:'Poppins';
    font-size: 20px;
    letter-spacing: 0;
    color:#7c3aed;
    background-color: #f5f3ff;
    text-decoration: none;
+   font-weight:600;
 }
 
 a:hover {

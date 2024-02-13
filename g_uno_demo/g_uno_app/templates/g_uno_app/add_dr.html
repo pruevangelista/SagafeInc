@@ -70,8 +70,8 @@
         <div class = "h4-medium gray700" style = "display: flex; justify-content: left; padding-bottom: 24px;">
             Product Details
         </div>
-        <div style = "display:flex; justify-content: space-between;padding-right:44px;">
-            <div class="form-group required" id="quantity_div" style = "width:103px">
+        <div style = "display:flex; justify-content: space-between; gap:28px;">
+            <div class="form-group required" id="quantity_div" style = "width:122px">
                 <label for="quantity" class = "gray500 justify-content-left control-label body-regular" required="required" style = "padding-bottom: 16px;"> Quantity </label>
                 <input type="text" id="quantity" name="quantity" class="form-control body-regular gray800" required="required" placeholder="Qty" style = "display:inline;">
             </div>
@@ -79,7 +79,7 @@
                 <div class = "gray500 justify-content-left body-regular" style = "padding-bottom: 22px;"> Unit </div>
                 <div class="lead gray700" id="unit" name="unit" style = "display:inline;">Sheets</div>
             </div>
-            <div class="form-group required" id="productchoice" style = "width:352px;">
+            <div class="form-group required" id="productchoice" style = "min-width:352px;">
                 <label for="productchoice" class = "gray500 justify-content-left control-label body-regular" required="required" style = "padding-bottom: 16px;"> Product </label>
                 <input type="text" class="form-control body-regular gray800" list="datalistOptions" id="productchoice" name="productchoice" placeholder="Type to search product..." style = "color:#6C757D; display:inline;" required>
                 <datalist id="datalistOptions">
@@ -107,13 +107,11 @@
                 <div class="lead gray700" id="unitprice" name="unitprice" style = "display:inline;">₱ 850.00</div>
             </div>
             <div class="form-group text-end" id="unitprice" style = "width:177px;">
-                <div class = "gray500 justify-content-left body-regular" style = "padding-bottom: 22px; padding-right:44px;"> Subtotal</div>
-                <div>
-                    <div class="lead gray700" id="unitprice" name="unitprice" style = "display:inline;">₱ 2,550.00</div>
-                    <span style = "font-size:16px; padding-left: 24px; vertical-align: 0px;"><i class="bi bi-trash-fill" style = "-webkit-text-stroke: 0px;color: white;"></i></span>
-                </div>
+                <div class = "gray500 justify-content-left body-regular" style = "padding-bottom: 22px;"> Subtotal</div>
+                <div class="lead gray700" id="unitprice" name="unitprice" style = "display:inline;">₱ 2,550.00</div>
+                    
             </div>
-            
+            <div style = "padding-top:6px;font-size:16px; vertical-align: 0px; opacity:0%;"><i class="bi bi-trash-fill red600" style = "-webkit-text-stroke: 0px;"></i></div>
         </div>
         
 
@@ -154,14 +152,14 @@
           
                 // Define the inner HTML for the new field set
                 newField.innerHTML = `
-                <div class = "prod" style = "display:flex; justify-content: space-between; padding-top:16px">
-                    <div class="form-group required" id="quantity_div" style = "width:103px">
+                <div class = "prod" style = "display:flex; justify-content: space-between; padding-top:16px; gap:28px;">
+                    <div class="form-group required" id="quantity_div" style = "width:122px">
                         <input type="text" id="quantity" name="quantity" class="form-control body-regular gray800" required="required" placeholder="Qty" style = "display:inline;">
                     </div>
                     <div class="form-group" id="unit" style = "width:68px; padding-top: 4px;">
                         <div class="lead gray700" id="unit" name="unit" style = "display:inline;">Sheets</div>
                     </div>
-                    <div class="form-group required" id="productchoice" style = "width:352px;">
+                    <div class="form-group required" id="productchoice" style = "min-width:352px;">
                         <input type="text" class="form-control body-regular gray800" list="datalistOptions" id="exampleDataList" name="productchoice" placeholder="Type to search product..." style = "color:#6C757D; display:inline;">
                         <datalist id="datalistOptions">
                             <option value="Vinyl Sticker Indoor">
@@ -185,9 +183,10 @@
                         <div class="lead gray700" id="unitprice" name="unitprice" style = "display:inline;">₱ 850.00</div>
                     </div>
                     <div class="form-group text-end" id="unitprice${fieldCount}" style = "width:177px;padding-top: 4px;">
-                        <div class="lead gray700" id="unitprice" name="unitprice" style = "display:inline; padding-right:0px;">₱ 2,550.00</div>
-                        <a onclick = "deleteProduct(event)" style = "padding-top:6px;font-size:16px; padding-left: 24px; vertical-align: 0px;"><i class="bi bi-trash-fill red600" style = "-webkit-text-stroke: 0px;"></i></a>
+                        <div class="lead gray700" id="unitprice" name="unitprice" style = "display:inline;">₱ 2,550.00</div>
                     </div>
+                    <a onclick = "deleteProduct(event)" style = "padding-top:6px;font-size:16px; vertical-align: 0px;"><i class="bi bi-trash-fill red600" style = "-webkit-text-stroke: 0px;"></i></a>
+
                 </div>
               `;
           

@@ -5,6 +5,7 @@ from django.shortcuts import render
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import *
 from decimal import Decimal
+from .utils import *
 
 # Create your views here.
 
@@ -74,22 +75,12 @@ def new_dr(request):
         print("AAAAAwdasdawdA")
         return render(request, 'g_uno_app/new_dr.html') 
 
-def add_dr(request):
-    # Checks if the latest DR instance exists and retrieves its dr_number
-    if DeliveryReceipt.objects.exists(): 
-        latest_DRinstance = DeliveryReceipt.objects.latest('dr_number')
-        latest_DRnumber = latest_DRinstance.dr_number 
-        new_DRnumber = latest_DRnumber + 1 
-    else: 
-        new_DRnumber = 1
-
+def add_dr(request):    
+    new_DRnumber = get_next(DeliveryReceipt)
     # Saves new_DRnumber only in memory until user actually clicks the confirm button in add_dr.html 
     dr_instance = DeliveryReceipt(dr_number=new_DRnumber)
-
     context = {
         'c': dr_instance,
-        #'d': client_instance, (for suggested client_name inputs)
-        #'e': product_instance, (for suggested product_name inputs)
     }
     return render(request, 'g_uno_app/add_dr.html', context)
 
