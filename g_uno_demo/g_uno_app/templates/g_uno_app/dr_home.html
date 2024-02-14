@@ -60,7 +60,7 @@
                     <td class="table small-regular gray500" style = "width:150px; padding-top:20px; padding-left:20px; padding-bottom:16px;"> {{ dr.getDate }} </td>
                     <td class="table small-regular gray500" style = "width:97px; padding-top:20px; padding-left:16px; padding-bottom:16px;"> {{ dr.formatDrNumber }} </td>
                     <td class="table small-regular gray500" style = "width:300px; padding-top:20px; padding-left:16px; padding-bottom:16px;"> {{ dr.client.getClientName }} </td>
-                    <td class="table small-regular gray500" style = "width:180px; padding-top:20px; padding-left:16px; padding-bottom:16px; text-align: right;"> ₱ {{ dr.getDrAmtWoVat }} </td>
+                    <td class="table small-regular gray500" style = "width:180px; padding-top:20px; padding-left:16px; padding-bottom:16px; text-align: right;"> ₱ {{ dr.getDrAmtVat }} </td>
                     <td class="table small-regular gray500" style = "width:150px; padding-top:20px; padding-left:16px; padding-bottom:16px;"> {{ dr.getDueDate }} </td>
                     {% if dr.getPaymentStatus == "Not Paid" %}
                     <td class="table small-regular gray500" style = "width:134px; padding-top:16px; padding-left:16px; padding-bottom:8px;"> <span class="badge rounded-pill bg-danger small-bold">Not Paid</span> </td> 
