@@ -6,6 +6,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import *
 from decimal import Decimal
 from .utils import *
+from django.http import JsonResponse
 
 # Create your views here.
 
@@ -83,8 +84,10 @@ def add_dr(request):
     new_DRnumber = get_next(DeliveryReceipt)
     # Saves new_DRnumber only in memory until user actually clicks the confirm button in add_dr.html 
     dr_instance = DeliveryReceipt(dr_number=new_DRnumber)
+    allProducts = Product.objects.all()
     context = {
         'c': dr_instance,
+        'p': allProducts
     }
     return render(request, 'g_uno_app/add_dr.html', context)
 
@@ -98,3 +101,15 @@ def view_dr(request, pk):
     # for i in deliveryReceipts:
     #     print(i.getDrNumber())
     return render(request, 'g_uno_app/view_dr.html', context)
+
+
+def get_price(request, pk):
+    products = Product.objects.get(pk=pk)
+    return JsonResponse({'price': str(products.unit_price) })
+
+def get_prod_id(request):
+    prod_name = request.GET.get('input_productchoice')
+    product = Product.objects.get(product_name=prod_name)
+    print("ASDAWDASD")
+    print(product)
+    return JsonResponse({'id': product.product_ID})

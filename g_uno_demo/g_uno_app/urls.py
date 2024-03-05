@@ -26,4 +26,6 @@ urlpatterns = [
     path('view_dr/<int:pk>/', views.view_dr, name='view_dr'), 
     path('align_test', views.align_test, name='align_test'), 
     path('new_dr', views.new_dr, name='new_dr'), #implement pk 
+    path('get_prod_id', views.get_prod_id, name='get_prod_id'), 
+    path('get_price/<int:pk>/', views.get_price, name='get_price'), 
 ]
