@@ -32,7 +32,7 @@ def new_dr(request):
 
         # Products
         inp_quantity = request.POST.getlist("quantity")
-        inp_product = request.POST.getlist("productchoice")
+        inp_product = request.POST.getlist("input_productchoice")
         inp_size = request.POST.getlist("size")
         print(inp_size)
 
@@ -52,6 +52,7 @@ def new_dr(request):
 
         gen_subtotal = []
         for product_index in range(len(inp_quantity)):
+            print(product_index, "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
             chosen_product = Product.objects.get(product_name__iexact = inp_product[product_index], size__iexact = inp_size[product_index])
             gen_subtotal.append(chosen_product.getUnitPrice() * Decimal(inp_quantity[product_index]))
             order_quantity_instance = QuantityOrdered.objects.create(dr = dr_instance, product = chosen_product, 
