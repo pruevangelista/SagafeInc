@@ -198,7 +198,7 @@
                         <div class="lead gray700" id="unit" name="unit" style = "display:inline;">Sheets</div>
                     </div>
                     <div class="form-group required" id="productchoice" style = "min-width:352px;">
-                        <input type="text" class="form-control body-regular gray800" list="datalistOptions" id="exampleDataList" name="productchoice" placeholder="Type to search product..." style = "color:#6C757D; display:inline;">
+                        <input type="text" class="form-control body-regular gray800" list="datalistOptions" id="input_productchoice" name="input_productchoice" placeholder="Type to search product..." style = "color:#6C757D; display:inline;" oninput="updatePrice()">
                         <datalist id="datalistOptions">
                             <option value="Vinyl Sticker Indoor">
                             <option value="Vinyl Sticker Outdoor">
@@ -218,7 +218,7 @@
                         </div>
                     </div>
                     <div class="form-group text-end" id="unitprice" style = "width:131px;padding-top: 4px;">
-                        <div class="lead gray700" id="unitprice" name="unitprice" style = "display:inline;">₱ 850.00</div>
+                        <div class="lead gray700" id="display_unitprice" name="unitprice" style = "display:inline;">₱ 850.00</div>
                     </div>
                     <div class="form-group text-end" id="unitprice${fieldCount}" style = "width:177px;padding-top: 4px;">
                         <div class="lead gray700" id="unitprice" name="unitprice" style = "display:inline;">₱ 2,550.00</div>
