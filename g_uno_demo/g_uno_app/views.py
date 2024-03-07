@@ -52,7 +52,6 @@ def new_dr(request):
 
         gen_subtotal = []
         for product_index in range(len(inp_quantity)):
-            print(product_index, "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
             chosen_product = Product.objects.get(product_name__iexact = inp_product[product_index], size__iexact = inp_size[product_index])
             gen_subtotal.append(chosen_product.getUnitPrice() * Decimal(inp_quantity[product_index]))
             order_quantity_instance = QuantityOrdered.objects.create(dr = dr_instance, product = chosen_product, 
@@ -109,7 +108,7 @@ def get_price(request, pk):
     return JsonResponse({'price': str(products.unit_price) })
 
 def get_prod_id(request):
-    prod_name = request.GET.get('input_productchoice')
+    prod_name = request.GET.get('input_productchoice_here')
     product = Product.objects.get(product_name=prod_name)
     print("ASDAWDASD")
     print(product)
