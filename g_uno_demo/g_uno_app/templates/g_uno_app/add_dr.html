@@ -81,7 +81,7 @@
             </div>
             <div class="form-group required first_row" id="productchoice" style = "min-width:352px;">
                 <label for="input_productchoice" class = "gray500 justify-content-left control-label body-regular" required="required" style = "padding-bottom: 16px;"> Product </label>
-                <input type="text" class="form-control body-regular gray800" list="datalistOptions" id="input_productchoice_test" name="input_productchoice_here" placeholder="Type to search product..." style = "color:#6C757D; display:inline;" oninput="updatePrice(this)" required>
+                <input type="text" class="form-control body-regular gray800" list="datalistOptions" id="input_productchoice1" name="input_productchoice" placeholder="Type to search product..." style = "color:#6C757D; display:inline;" oninput="updatePrice(this)" required>
                 <datalist id="datalistOptions">
                     <option value="Vinyl Sticker Indoor">
                     <option value="Vinyl Sticker Outdoor">
@@ -104,7 +104,7 @@
             </div>
             <div class="form-group text-end" id="unitprice" style = "width:131px;">
                 <div class = "gray500 justify-content-left body-regular" style = "padding-bottom: 22px;"> Unit Price </div>
-                <div class="lead gray700" id="display_unitprice" name="unitprice" style = "display:inline;">₱ 0.00</div>
+                <div class="lead gray700" id="display_unitprice1" name="unitprice" style = "display:inline;">₱ 0.00</div>
             </div>
             <div class="form-group text-end" id="unitprice" style = "width:177px;">
                 <div class = "gray500 justify-content-left body-regular" style = "padding-bottom: 22px;"> Subtotal</div>
@@ -128,20 +128,25 @@
 
         <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
         <script>
+             let fieldCount = 1;
 
             // Philip: Dynamically Update Price
             function updatePrice(inptest){
-                var productName = $('#input_productchoice_test').val();
-                console.log(inptest.id + "Test");
+                // var productName = $('#input_productchoice_test').val();
+                var productName = inptest.value;
+                console.log(inptest.value + "Test");
                 console.log(productName + "Testwdad");
+                
                 $.ajax({
                     url: '/get_prod_id',
                     type: 'GET',
-                    data: {'input_productchoice_here': productName},
+                    data: {'input_productchoice': productName},
                     success: function(data) {
                         var productID = data.id;
-                        console.log(productID + " SUCC");
-                        grabPrice(productID);
+                        var prodRow = inptest.id.slice(-1);
+                        console.log(productID + " PROD ID");
+                        console.log(prodRow + " ROW");
+                        grabPrice(productID, prodRow);
                     },
                     error: function(data){       
                         console.log("ERROR!");
@@ -150,12 +155,13 @@
                 });
             }
 
-            function grabPrice(productID){
+            function grabPrice(productID, row){
+                console.log(row + " PRICE ROW")
                 $.ajax({
                     url: '/get_price/' + productID + '/',
                     type: 'GET',
                     success: function(data){
-                        $('#display_unitprice').text('₱' + data.price);
+                        $('#display_unitprice' + row).text('₱' + data.price);
                     },
                     error: function() {
                         console.log("ERROR!");
@@ -171,7 +177,7 @@
             }
             
             // JavaScript function to add a new field
-            let fieldCount = 1;
+           
             function updateTerm(value) {
                 document.getElementById('inputTerms').value = value;
             }
@@ -200,7 +206,7 @@
                         <div class="lead gray700" id="unit" name="unit" style = "display:inline;">Sheets</div>
                     </div>
                     <div class="form-group required" id="productchoice" style = "min-width:352px;">
-                        <input type="text" class="form-control body-regular gray800" list="datalistOptions" id="input_productchoice" name="input_productchoice" placeholder="Type to search product..." style = "color:#6C757D; display:inline;" oninput="updatePrice(this)">
+                        <input type="text" class="form-control body-regular gray800" list="datalistOptions" id="input_productchoice${fieldCount}" name="input_productchoice" placeholder="Type to search product..." style = "color:#6C757D; display:inline;" oninput="updatePrice(this)">
                         <datalist id="datalistOptions">
                             <option value="Vinyl Sticker Indoor">
                             <option value="Vinyl Sticker Outdoor">
@@ -220,7 +226,7 @@
                         </div>
                     </div>
                     <div class="form-group text-end" id="unitprice" style = "width:131px;padding-top: 4px;">
-                        <div class="lead gray700" id="display_unitprice" name="unitprice" style = "display:inline;">₱ 850.00</div>
+                        <div class="lead gray700" id="display_unitprice${fieldCount}" name="unitprice" style = "display:inline;">₱ 0.00</div>
                     </div>
                     <div class="form-group text-end" id="unitprice${fieldCount}" style = "width:177px;padding-top: 4px;">
                         <div class="lead gray700" id="unitprice" name="unitprice" style = "display:inline;">₱ 2,550.00</div>

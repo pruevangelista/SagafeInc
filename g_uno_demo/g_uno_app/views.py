@@ -108,7 +108,7 @@ def get_price(request, pk):
     return JsonResponse({'price': str(products.unit_price) })
 
 def get_prod_id(request):
-    prod_name = request.GET.get('input_productchoice_here')
+    prod_name = request.GET.get('input_productchoice')
     product = Product.objects.get(product_name=prod_name)
     print("ASDAWDASD")
     print(product)
