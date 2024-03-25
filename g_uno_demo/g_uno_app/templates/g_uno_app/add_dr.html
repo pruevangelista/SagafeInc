@@ -72,8 +72,8 @@
         </div>
         <div style = "display:flex; justify-content: space-between; gap:28px;">
             <div class="form-group required" id="quantity_div" style = "width:122px">
-                <label for="quantity" class = "gray500 justify-content-left control-label body-regular" required="required" style = "padding-bottom: 16px;"> Quantity </label>
-                <input type="text" id="quantity" name="quantity" class="form-control body-regular gray800" required="required" placeholder="Qty" style = "display:inline;">
+                <label for="input_quantity1" class = "gray500 justify-content-left control-label body-regular" required="required" style = "padding-bottom: 16px;"> Quantity </label>
+                <input type="text" id="input_quantity1" name="quantity" class="form-control body-regular gray800" required="required" placeholder="Qty" style = "display:inline;" oninput="updateLineTotal(this.value)">
             </div>
             <div class="form-group" id="unit" style = "width:68px;">
                 <div class = "gray500 justify-content-left body-regular" style = "padding-bottom: 22px;"> Unit </div>
@@ -108,7 +108,7 @@
             </div>
             <div class="form-group text-end" id="unitprice" style = "width:177px;">
                 <div class = "gray500 justify-content-left body-regular" style = "padding-bottom: 22px;"> Subtotal</div>
-                <div class="lead gray700" id="unitprice" name="unitprice" style = "display:inline;">₱ 2,550.00</div>
+                <div class="lead gray700" id="line_total1" name="line_total1" style = "display:inline;">₱ 0.00</div>
                     
             </div>
             <div style = "padding-top:6px;font-size:16px; vertical-align: 0px; opacity:0%;"><i class="bi bi-trash-fill red600" style = "-webkit-text-stroke: 0px;"></i></div>
@@ -134,9 +134,7 @@
             function updatePrice(inptest){
                 // var productName = $('#input_productchoice_test').val();
                 var productName = inptest.value;
-                console.log(inptest.value + "Test");
-                console.log(productName + "Testwdad");
-                
+
                 $.ajax({
                     url: '/get_prod_id',
                     type: 'GET',
@@ -144,8 +142,6 @@
                     success: function(data) {
                         var productID = data.id;
                         var prodRow = inptest.id.slice(-1);
-                        console.log(productID + " PROD ID");
-                        console.log(prodRow + " ROW");
                         grabPrice(productID, prodRow);
                     },
                     error: function(data){       
@@ -156,17 +152,42 @@
             }
 
             function grabPrice(productID, row){
-                console.log(row + " PRICE ROW")
+                var quantCheck = document.getElementById("input_quantity" + fieldCount).value;
                 $.ajax({
                     url: '/get_price/' + productID + '/',
                     type: 'GET',
                     success: function(data){
                         $('#display_unitprice' + row).text('₱' + data.price);
+                        if (quantCheck != 0){
+                            updateLineTotal(quantCheck);
+                        }
                     },
                     error: function() {
                         console.log("ERROR!");
                     }
                 });
+
+                
+
+               
+
+            }
+
+            function updateLineTotal(line_quantity){
+                var prodCheck = document.getElementById("input_productchoice" + fieldCount).value;
+                if (prodCheck != 0){
+                    console.log(line_quantity, " WOP WOP WOP");
+                    var line_price = document.getElementById("display_unitprice" + fieldCount).textContent;
+                    var int_price_total = parseInt(line_price.replace("₱", "")) * line_quantity;
+                    console.log(int_price_total + " computation");
+
+                    // update text
+                    var line_total = document.getElementById("line_total" + fieldCount);
+                    line_total.textContent = "₱" + int_price_total;
+                }
+                
+
+                
             }
             // end
             
@@ -200,7 +221,7 @@
                 newField.innerHTML = `
                 <div class = "prod" style = "display:flex; justify-content: space-between; padding-top:16px; gap:28px;">
                     <div class="form-group required" id="quantity_div" style = "width:122px">
-                        <input type="text" id="quantity" name="quantity" class="form-control body-regular gray800" required="required" placeholder="Qty" style = "display:inline;">
+                        <input type="text" id="input_quantity${fieldCount}" name="quantity" class="form-control body-regular gray800" required="required" placeholder="Qty" style = "display:inline;"  oninput="updateLineTotal(this.value)">
                     </div>
                     <div class="form-group" id="unit" style = "width:68px; padding-top: 4px;">
                         <div class="lead gray700" id="unit" name="unit" style = "display:inline;">Sheets</div>
@@ -229,7 +250,7 @@
                         <div class="lead gray700" id="display_unitprice${fieldCount}" name="unitprice" style = "display:inline;">₱ 0.00</div>
                     </div>
                     <div class="form-group text-end" id="unitprice${fieldCount}" style = "width:177px;padding-top: 4px;">
-                        <div class="lead gray700" id="unitprice" name="unitprice" style = "display:inline;">₱ 2,550.00</div>
+                        <div class="lead gray700" id="line_total${fieldCount}" name="unitprice" style = "display:inline;">₱ 0.00</div>
                     </div>
                     <a onclick = "deleteProduct(event)" style = "padding-top:6px;font-size:16px; vertical-align: 0px;"><i class="bi bi-trash-fill red600" style = "-webkit-text-stroke: 0px;"></i></a>
 
