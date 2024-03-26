@@ -62,9 +62,9 @@ def new_dr(request):
             
         
         dr_instance.dr_amt_vat = sum(gen_subtotal)
-        dr_instance.dr_vat = round(sum(gen_subtotal) / Decimal(1.12), 2)
+        dr_instance.dr_amt_wo_vat = round(sum(gen_subtotal) / Decimal(1.12), 2)
         dr_instance.save()
-        dr_instance.dr_amt_wo_vat = dr_instance.dr_amt_vat - dr_instance.dr_vat
+        dr_instance.dr_vat = dr_instance.dr_amt_vat - dr_instance.dr_amt_wo_vat
         dr_instance.save()
         
 

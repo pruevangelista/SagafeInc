@@ -73,7 +73,7 @@
         <div style = "display:flex; justify-content: space-between; gap:28px;">
             <div class="form-group required" id="quantity_div" style = "width:122px">
                 <label for="input_quantity1" class = "gray500 justify-content-left control-label body-regular" required="required" style = "padding-bottom: 16px;"> Quantity </label>
-                <input type="text" id="input_quantity1" name="quantity" class="form-control body-regular gray800" required="required" placeholder="Qty" style = "display:inline;" oninput="updateLineTotal(this.value)">
+                <input type="text" id="input_quantity1" name="quantity" class="form-control body-regular gray800" required="required" placeholder="Qty" style = "display:inline;" oninput="updateLineTotal(this)">
             </div>
             <div class="form-group" id="unit" style = "width:68px;">
                 <div class = "gray500 justify-content-left body-regular" style = "padding-bottom: 22px;"> Unit </div>
@@ -152,7 +152,7 @@
             }
 
             function grabPrice(productID, row){
-                var quantCheck = document.getElementById("input_quantity" + fieldCount).value;
+                var quantCheck = document.getElementById("input_quantity" + row);
                 $.ajax({
                     url: '/get_price/' + productID + '/',
                     type: 'GET',
@@ -173,21 +173,51 @@
 
             }
 
-            function updateLineTotal(line_quantity){
-                var prodCheck = document.getElementById("input_productchoice" + fieldCount).value;
-                if (prodCheck != 0){
-                    console.log(line_quantity, " WOP WOP WOP");
-                    var line_price = document.getElementById("display_unitprice" + fieldCount).textContent;
-                    var int_price_total = parseInt(line_price.replace("₱", "")) * line_quantity;
-                    console.log(int_price_total + " computation");
+            
+            function updateLineTotal(inp){
+                //get row
+                var line_row = inp.id.slice(-1);
 
+                // grab value
+                var line_quantity = inp.value;
+                var prod_check = document.getElementById("input_productchoice" + line_row).value;
+                
+                
+                if (prod_check != 0){
+                    console.log(line_row + " THIS ROW");
+                    var line_price = document.getElementById("display_unitprice" + line_row).textContent;
+                    var float_total = parseFloat(line_price.replace("₱", "")) * line_quantity;
+                    
                     // update text
-                    var line_total = document.getElementById("line_total" + fieldCount);
-                    line_total.textContent = "₱" + int_price_total;
+                    var line_total = document.getElementById("line_total" + line_row);
+
+                    var float_total_format = float_total.toFixed(2);
+                    line_total.textContent = "₱" + float_total_format;
+
+                    // Running total
+                    runningTotal();
+                    
+                    
+                    
+                    //dr_total.innerHTML = span_element.outerHTML + "₱" + running_total_format;
                 }
                 
 
                 
+            }
+            function runningTotal(){
+                var dr_total = document.getElementById("dr_total");
+                var span_element = dr_total.querySelector('span');
+                var all_total = document.querySelectorAll('[id^="line_total"]')
+
+                var sum_total = 0;
+                for (const t of all_total){
+                    var grab_total = parseFloat(t.textContent.replace("₱", ""));
+                    sum_total += grab_total
+                }
+                var sum_format = "₱" + sum_total.toFixed(2);
+                console.log(sum_format + " SUM");
+                dr_total.innerHTML = span_element.outerHTML + sum_format;
             }
             // end
             
@@ -221,7 +251,7 @@
                 newField.innerHTML = `
                 <div class = "prod" style = "display:flex; justify-content: space-between; padding-top:16px; gap:28px;">
                     <div class="form-group required" id="quantity_div" style = "width:122px">
-                        <input type="text" id="input_quantity${fieldCount}" name="quantity" class="form-control body-regular gray800" required="required" placeholder="Qty" style = "display:inline;"  oninput="updateLineTotal(this.value)">
+                        <input type="text" id="input_quantity${fieldCount}" name="quantity" class="form-control body-regular gray800" required="required" placeholder="Qty" style = "display:inline;"  oninput="updateLineTotal(this)">
                     </div>
                     <div class="form-group" id="unit" style = "width:68px; padding-top: 4px;">
                         <div class="lead gray700" id="unit" name="unit" style = "display:inline;">Sheets</div>
@@ -302,6 +332,7 @@
                 if (productDiv) {
                     // Remove the product div from its parent container
                     productDiv.remove();
+                    runningTotal();
                     fieldCount--;
                 } else {
                     console.error('No product div found.');
@@ -312,25 +343,6 @@
             }
             
 
-            {% comment %} function submitForm(event) {
-                event.preventDefault();
-                var formInfo = $('#drForm').serialize();
-                $.ajax({
-                    url: 'new_dr',
-                    type: 'POST', 
-                    data: {
-                        csrfmiddlewaretoken: '{{ csrf_token }}',
-                        formInfo,
-                    },
-                    success: function(response) {
-                        console.log("TEST");
-                        window.location.href = '/new_dr';
-                    },
-                    error: function(error) {
-                        console.error(error)
-                    }
-                });
-            } {% endcomment %}
 
 
         </script>    
@@ -340,7 +352,7 @@
 
 <div class = "shadow" style = "background-color: white; width:100%; height:86px; position:fixed; bottom:0%">
     <div style = "display:flex; justify-content: right;">
-        <div class = "h5-semibold gray900" style = "padding-right:36px; padding-top:31px"><span class = "h6-medium gray500" style = "padding-right:8px;">TOTAL:</span>₱ 0.00</div>
+        <div class = "h5-semibold gray900" style = "padding-right:36px; padding-top:31px" id="dr_total"><span class = "h6-medium gray500" style = "padding-right:8px;">TOTAL:</span>₱ 0.00</div>
         <button type="submit" class = "btn btn-primary body-semibold" style = "width: 153px; margin-top:24px; margin-right:86px;">Confirm</button>
         
     </div>
